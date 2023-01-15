@@ -26,7 +26,7 @@ class HomeStateMachine @Inject constructor(
     override val initAction: HomeAction = HomeAction.StartLoadData
 
     override fun sideEffects(): List<SideEffect<HomeState, HomeAction>> =
-        listOf(loadPropertiesSideEffect, favoriteSideEffect)
+        listOf(loadPropertiesSideEffect, favoriteSideEffect, propertyClickSideEffect)
 
     override fun reducer(): Reducer<HomeState, HomeAction> = { state, action ->
         when (action) {
@@ -60,6 +60,13 @@ class HomeStateMachine @Inject constructor(
                     }
                 }
             }
+    }
+
+    @VisibleForTesting
+    val propertyClickSideEffect: SideEffect<HomeState, HomeAction> = { actions, _ ->
+        actions.ofType(HomeAction.PropertyClick::class)
+            .onEach { Log.d("PropertyClickSE", it.toString()) }
+            .flatMapLatest { emptyFlow() }
     }
 
     private suspend fun getProperties() = getPropertiesUseCase.invoke()

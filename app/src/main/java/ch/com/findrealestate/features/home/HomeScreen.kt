@@ -76,6 +76,9 @@ fun PropertiesList(viewModel: HomeStateViewModel, paddingValues: PaddingValues) 
                             property,
                             toggleFavorite = { id ->
                                 viewModel.dispatch(HomeAction.FavoriteClick(id))
+                            },
+                            propertyClick = { id ->
+                                viewModel.dispatch(HomeAction.PropertyClick(id))
                             }
                         )
                         Divider()
@@ -95,12 +98,14 @@ fun PropertiesList(viewModel: HomeStateViewModel, paddingValues: PaddingValues) 
 @Composable
 fun PropertyItem(
     property: Property,
-    toggleFavorite: (String) -> Unit
+    toggleFavorite: (String) -> Unit,
+    propertyClick: (String) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .padding(start = 20.dp, end = 20.dp)
+            .clickable { propertyClick(property.id) }
     ) {
         Box {
             Box(
@@ -179,6 +184,6 @@ fun PropertyItemPreview() {
         isFavorite = true
     )
     FindRealEstateTheme {
-        PropertyItem(property, toggleFavorite = ({ }))
+        PropertyItem(property, toggleFavorite = { }, propertyClick = {})
     }
 }
