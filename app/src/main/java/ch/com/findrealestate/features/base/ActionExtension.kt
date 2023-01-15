@@ -1,4 +1,4 @@
-package ch.com.findrealestate.redux.base
+package ch.com.findrealestate.features.base
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter

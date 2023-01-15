@@ -26,9 +26,9 @@ import ch.com.findrealestate.components.PriceView
 import ch.com.findrealestate.components.SmgErrorView
 import ch.com.findrealestate.components.SmgImage
 import ch.com.findrealestate.domain.entity.Property
-import ch.com.findrealestate.redux.home.HomeAction
-import ch.com.findrealestate.redux.home.HomeState
-import ch.com.findrealestate.redux.home.HomeStateViewModel
+import ch.com.findrealestate.features.home.redux.HomeAction
+import ch.com.findrealestate.features.home.redux.HomeState
+import ch.com.findrealestate.features.home.HomeStateViewModel
 import ch.com.findrealestate.ui.theme.FindRealEstateTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,14 +65,17 @@ fun PropertiesList(viewModel: HomeStateViewModel, paddingValues: PaddingValues) 
                     SmgErrorView()
                 }
             }
-            is HomeState.PropertiesLoaded -> {
-                val propertiesList = (homeState as HomeState.PropertiesLoaded).properties
-                items(propertiesList.size) { index ->
+            is HomeState.PropertiesLoaded,
+            is HomeState.PropertiesListUpdated -> {
+                val propertiesList = homeState!!.properties
+                items(
+                    count = propertiesList.size,
+                    key = { index -> propertiesList[index].id }) { index ->
                     propertiesList[index].let { property ->
                         PropertyItem(
                             property,
-                            toggleFavorite = { id, favorite ->
-                                viewModel.dispatch(HomeAction.FavoriteClick(id, favorite))
+                            toggleFavorite = { id ->
+                                viewModel.dispatch(HomeAction.FavoriteClick(id))
                             }
                         )
                         Divider()
@@ -92,7 +95,7 @@ fun PropertiesList(viewModel: HomeStateViewModel, paddingValues: PaddingValues) 
 @Composable
 fun PropertyItem(
     property: Property,
-    toggleFavorite: (String, Boolean) -> Unit
+    toggleFavorite: (String) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -110,7 +113,7 @@ fun PropertyItem(
                     )
                     .align(Alignment.TopEnd)
                     .clickable {
-                        toggleFavorite(property.id, !property.isFavorite)
+                        toggleFavorite(property.id)
                     }
             ) {
                 if (property.isFavorite) {
@@ -176,6 +179,6 @@ fun PropertyItemPreview() {
         isFavorite = true
     )
     FindRealEstateTheme {
-        PropertyItem(property, toggleFavorite = ({ _, _ -> }))
+        PropertyItem(property, toggleFavorite = ({ }))
     }
 }

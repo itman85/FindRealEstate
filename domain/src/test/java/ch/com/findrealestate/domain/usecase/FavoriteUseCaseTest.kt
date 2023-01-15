@@ -11,13 +11,13 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ToggleFavoriteUseCaseTest : MockkUnitTest() {
+class FavoriteUseCaseTest : MockkUnitTest() {
     @RelaxedMockK
     lateinit var propertyRepository: PropertiesRepository
 
     @SpyK
     @InjectMockKs
-    private lateinit var toggleFavoriteUseCase: ToggleFavoriteUseCase
+    private lateinit var toggleFavoriteUseCase: FavoriteUseCase
 
     @Test
     fun `when invoke toggleFavoriteUseCase then PropertiesRepository toggle favorite is called one time`() =
@@ -27,7 +27,7 @@ class ToggleFavoriteUseCaseTest : MockkUnitTest() {
             val isFavorite = true
 
             // Act (When)
-            toggleFavoriteUseCase.invoke(id, isFavorite)
+            toggleFavoriteUseCase.toggleFavorite(id, isFavorite)
 
             // Assert (Then)
             coVerify(exactly = 1) { propertyRepository.toggleFavorite(id, isFavorite) }

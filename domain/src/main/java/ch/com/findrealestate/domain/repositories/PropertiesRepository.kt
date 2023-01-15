@@ -8,4 +8,6 @@ interface PropertiesRepository {
     suspend fun refresh()
 
     suspend fun toggleFavorite(id: String, isFavorite: Boolean)
+
+    suspend fun checkFavorite(id: String): Boolean
 }

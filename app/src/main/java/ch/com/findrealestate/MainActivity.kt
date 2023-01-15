@@ -9,7 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import ch.com.findrealestate.redux.home.HomeStateViewModel
+import ch.com.findrealestate.features.home.HomeStateViewModel
 import ch.com.findrealestate.ui.screens.HomeScreen
 import ch.com.findrealestate.ui.theme.FindRealEstateTheme
 import dagger.hilt.android.AndroidEntryPoint

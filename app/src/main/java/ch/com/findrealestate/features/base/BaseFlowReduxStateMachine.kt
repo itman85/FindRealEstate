@@ -1,4 +1,4 @@
-package ch.com.findrealestate.redux.base
+package ch.com.findrealestate.features.base
 
 import com.freeletics.flowredux.Reducer
 import com.freeletics.flowredux.SideEffect

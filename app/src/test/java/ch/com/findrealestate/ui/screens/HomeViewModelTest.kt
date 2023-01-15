@@ -2,7 +2,7 @@ package ch.com.findrealestate.ui.screens
 
 import ch.com.findrealestate.domain.usecase.GetPropertiesUseCase
 import ch.com.findrealestate.domain.usecase.RefreshPropertyUseCase
-import ch.com.findrealestate.domain.usecase.ToggleFavoriteUseCase
+import ch.com.findrealestate.domain.usecase.FavoriteUseCase
 import ch.com.testutils.MockkUnitTest
 import io.mockk.coVerify
 import io.mockk.impl.annotations.InjectMockKs
@@ -24,7 +24,7 @@ class HomeViewModelTest : MockkUnitTest() {
     lateinit var refreshPropertyUseCase: RefreshPropertyUseCase
 
     @RelaxedMockK
-    lateinit var toggleFavoriteUseCase: ToggleFavoriteUseCase
+    lateinit var toggleFavoriteUseCase: FavoriteUseCase
 
     @SpyK
     @InjectMockKs

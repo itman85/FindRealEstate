@@ -6,7 +6,7 @@ import ch.com.findrealestate.data.database.entity.asPropertyEntity
 import ch.com.findrealestate.domain.entity.Property
 import javax.inject.Inject
 
-class LocalDataSource @Inject constructor (private val propertyDao: PropertyDao) {
+class LocalDataSource @Inject constructor(private val propertyDao: PropertyDao) {
     fun getProperties(): List<Property> {
         return propertyDao.getAllProperties()
             .map { propertyEntity -> propertyEntity.asProperty() }
@@ -22,5 +22,9 @@ class LocalDataSource @Inject constructor (private val propertyDao: PropertyDao)
 
     suspend fun toggleFavorite(id: String, isFavorite: Boolean) {
         propertyDao.updateFavorite(id, isFavorite)
+    }
+
+    suspend fun checkFavorite(id: String): Boolean {
+        return propertyDao.getFavoriteState(id) ?: false
     }
 }
