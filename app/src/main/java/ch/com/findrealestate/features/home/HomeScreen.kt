@@ -78,7 +78,7 @@ fun PropertiesList(viewModel: HomeStateViewModel, paddingValues: PaddingValues) 
                                 viewModel.dispatch(HomeAction.FavoriteClick(id))
                             },
                             propertyClick = { id ->
-                                viewModel.dispatch(HomeAction.PropertyClick(id))
+                                viewModel.navigateToDetail()
                             }
                         )
                         Divider()

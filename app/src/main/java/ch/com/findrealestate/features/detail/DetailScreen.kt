@@ -7,12 +7,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ch.com.findrealestate.features.home.HomeStateViewModel
-import ch.com.findrealestate.ui.screens.PropertiesList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(viewModel: HomeStateViewModel) {
+fun DetailScreen() {
     Scaffold(topBar = {
         TopAppBar(title = { Text("Detail Property") })
     }) { paddingValues ->
