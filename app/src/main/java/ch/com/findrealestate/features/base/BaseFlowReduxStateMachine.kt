@@ -1,5 +1,8 @@
 package ch.com.findrealestate.features.base
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.produceState
 import com.freeletics.flowredux.Reducer
 import com.freeletics.flowredux.SideEffect
 import com.freeletics.flowredux.dsl.StateMachine
@@ -12,11 +15,13 @@ import kotlinx.coroutines.flow.*
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-abstract class BaseFlowReduxStateMachine<S:Any, A:Any>: StateMachine<S, A> {
+abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachine<S, A> {
 
     private val inputActions = Channel<A>()
 
     private lateinit var outputState: Flow<S>
+
+    open val navigationFlow = Channel<N>()
 
     private val activeFlowCounter = AtomicCounter(0)
 
@@ -34,7 +39,11 @@ abstract class BaseFlowReduxStateMachine<S:Any, A:Any>: StateMachine<S, A> {
             .onStart {
                 emit(initAction)
             }
-            .reduxStore(initialStateSupplier = {initialState}, sideEffects =  sideEffects(), reducer = reducer())
+            .reduxStore(
+                initialStateSupplier = { initialState },
+                sideEffects = sideEffects(),
+                reducer = reducer()
+            )
             .distinctUntilChanged { old, new -> old === new } // distinct until not the same object reference.
             .onStart {
                 if (activeFlowCounter.incrementAndGet() > 1) {
@@ -54,6 +63,8 @@ abstract class BaseFlowReduxStateMachine<S:Any, A:Any>: StateMachine<S, A> {
     override val state: Flow<S>
         get() = outputState
 
+    val navigation: Flow<N> = navigationFlow.receiveAsFlow()
+
     override suspend fun dispatch(action: A) {
         if (activeFlowCounter.get() <= 0) {
             throw IllegalStateException(
@@ -63,5 +74,23 @@ abstract class BaseFlowReduxStateMachine<S:Any, A:Any>: StateMachine<S, A> {
             )
         }
         inputActions.send(action)
+    }
+
+    protected inline fun <reified A : Any> createNavigationSideEffect(
+        noinline navigationTransformer: (S, A) -> N?
+    ): SideEffect<S, A> = { actions, getState ->
+        actions.ofType(A::class)
+            .mapNotNull { navigationTransformer(getState(), it) }
+            .onEach { navigationFlow.send(it) }
+            .flatMapLatest { emptyFlow() }
+    }
+}
+
+@ExperimentalCoroutinesApi
+@FlowPreview
+@Composable
+fun <S : Any, A : Any, N: Any> BaseFlowReduxStateMachine<S, A, N>.rememberNavigation(): State<N?> {
+    return produceState<N?>(initialValue = null, this) {
+        navigation.collect { value = it }
     }
 }

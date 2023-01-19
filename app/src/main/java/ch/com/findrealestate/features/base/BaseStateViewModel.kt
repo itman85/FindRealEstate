@@ -9,14 +9,16 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-abstract class BaseStateViewModel<State:Any, Action:Any> constructor(
-    private val stateMachine: BaseFlowReduxStateMachine<State, Action>
+abstract class BaseStateViewModel<State:Any, Action:Any, Navigation:Any> constructor(
+    private val stateMachine: BaseFlowReduxStateMachine<State, Action,Navigation>
 ): ViewModel(){
     init {
         stateMachine.initStore()
     }
     @Composable
     fun rememberState() = stateMachine.rememberState()
+    @Composable
+    fun rememberNavigation() = stateMachine.rememberNavigation()
 
     fun dispatch(action: Action) = viewModelScope.launch {
         stateMachine.dispatch(action = action)

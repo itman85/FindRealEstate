@@ -2,6 +2,7 @@ package ch.com.findrealestate.features.home
 
 import ch.com.findrealestate.features.base.BaseStateViewModel
 import ch.com.findrealestate.features.home.redux.HomeAction
+import ch.com.findrealestate.features.home.redux.HomeNavigation
 import ch.com.findrealestate.features.home.redux.HomeState
 import ch.com.findrealestate.features.home.redux.HomeStateMachine
 import ch.com.findrealestate.navigation.NavigationManager
@@ -13,8 +14,8 @@ import javax.inject.Inject
 class HomeStateViewModel @Inject constructor(
     stateMachine: HomeStateMachine,
     private val navigationManager: NavigationManager
-) : BaseStateViewModel<HomeState, HomeAction>(stateMachine){
-    fun navigateToDetail(){
+) : BaseStateViewModel<HomeState, HomeAction, HomeNavigation>(stateMachine) {
+    fun navigateToDetail() {
         navigationManager.navigate(NavigationRoutes.detail)
     }
 }

@@ -29,6 +29,7 @@ import ch.com.findrealestate.domain.entity.Property
 import ch.com.findrealestate.features.home.redux.HomeAction
 import ch.com.findrealestate.features.home.redux.HomeState
 import ch.com.findrealestate.features.home.HomeStateViewModel
+import ch.com.findrealestate.features.home.redux.HomeNavigation
 import ch.com.findrealestate.ui.theme.FindRealEstateTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,6 +45,14 @@ fun HomeScreen(viewModel: HomeStateViewModel) {
 @Composable
 fun PropertiesList(viewModel: HomeStateViewModel, paddingValues: PaddingValues) {
     val homeState by viewModel.rememberState()
+
+    val homeNavigation by viewModel.rememberNavigation()
+    when(homeNavigation){
+        is HomeNavigation.OpenDetailScreen -> viewModel.navigateToDetail()
+        else -> {
+            // No navigation, just stay Home screen
+        }
+    }
 
     val scrollableState = rememberLazyListState()
     LazyColumn(
@@ -78,7 +87,7 @@ fun PropertiesList(viewModel: HomeStateViewModel, paddingValues: PaddingValues) 
                                 viewModel.dispatch(HomeAction.FavoriteClick(id))
                             },
                             propertyClick = { id ->
-                                viewModel.navigateToDetail()
+                                viewModel.dispatch(HomeAction.PropertyClick(id))
                             }
                         )
                         Divider()

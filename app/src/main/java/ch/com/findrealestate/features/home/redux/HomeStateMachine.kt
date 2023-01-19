@@ -11,7 +11,10 @@ import com.freeletics.flowredux.SideEffect
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
@@ -19,14 +22,19 @@ import javax.inject.Inject
 class HomeStateMachine @Inject constructor(
     private val getPropertiesUseCase: GetPropertiesUseCase,
     private val favoriteSideEffect: FavoriteSideEffect
-) : BaseFlowReduxStateMachine<HomeState, HomeAction>() {
+) : BaseFlowReduxStateMachine<HomeState, HomeAction, HomeNavigation>() {
 
     override val initialState: HomeState = HomeState.Init
 
     override val initAction: HomeAction = HomeAction.StartLoadData
 
     override fun sideEffects(): List<SideEffect<HomeState, HomeAction>> =
-        listOf(loadPropertiesSideEffect, favoriteSideEffect, propertyClickSideEffect)
+        listOf(
+            loadPropertiesSideEffect,
+            favoriteSideEffect,
+            propertyClickSideEffect,
+            navigationSideEffect
+        )
 
     override fun reducer(): Reducer<HomeState, HomeAction> = { state, action ->
         when (action) {
@@ -60,6 +68,15 @@ class HomeStateMachine @Inject constructor(
                     }
                 }
             }
+    }
+
+
+    @VisibleForTesting
+    val navigationSideEffect = createNavigationSideEffect<HomeAction> { _, action ->
+        when (action) {
+            is HomeAction.PropertyClick -> HomeNavigation.OpenDetailScreen
+            else -> null
+        }
     }
 
     @VisibleForTesting
