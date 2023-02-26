@@ -21,11 +21,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.navigation.compose.rememberNavController
 import ch.com.findrealestate.components.Loading
 import ch.com.findrealestate.components.PriceView
 import ch.com.findrealestate.components.SmgErrorView
 import ch.com.findrealestate.components.SmgImage
 import ch.com.findrealestate.domain.entity.Property
+import ch.com.findrealestate.features.home.HomeNavigator
 import ch.com.findrealestate.features.home.redux.HomeAction
 import ch.com.findrealestate.features.home.redux.HomeState
 import ch.com.findrealestate.features.home.HomeStateViewModel
@@ -34,21 +36,23 @@ import ch.com.findrealestate.ui.theme.FindRealEstateTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(viewModel: HomeStateViewModel) {
+fun HomeScreen(viewModel: HomeStateViewModel, navigator: HomeNavigator) {
+    Log.d("Phan", "home screen recompose")
     Scaffold(topBar = {
         TopAppBar(title = { Text("Real Estate") })
     }) { paddingValues ->
-        PropertiesList(viewModel, paddingValues)
+        PropertiesList(viewModel, navigator, paddingValues)
     }
 }
 
 @Composable
-fun PropertiesList(viewModel: HomeStateViewModel, paddingValues: PaddingValues) {
+fun PropertiesList(viewModel: HomeStateViewModel, navigator: HomeNavigator, paddingValues: PaddingValues) {
     val homeState by viewModel.rememberState()
-
+    Log.d("Phan", "home state change $homeState")
     val homeNavigation by viewModel.rememberNavigation()
+    Log.d("Phan", "navigation change $homeNavigation")
     when(homeNavigation){
-        is HomeNavigation.OpenDetailScreen -> viewModel.navigateToDetail()
+        is HomeNavigation.OpenDetailScreen -> navigator.navigateToDetail((homeNavigation as HomeNavigation.OpenDetailScreen).propertyId)
         else -> {
             // No navigation, just stay Home screen
         }
@@ -88,6 +92,8 @@ fun PropertiesList(viewModel: HomeStateViewModel, paddingValues: PaddingValues) 
                             },
                             propertyClick = { id ->
                                 viewModel.dispatch(HomeAction.PropertyClick(id))
+                                //navigator.navigateToDetail(id)
+                                Log.d("Phan", "Open detail")
                             }
                         )
                         Divider()
@@ -110,6 +116,7 @@ fun PropertyItem(
     toggleFavorite: (String) -> Unit,
     propertyClick: (String) -> Unit
 ) {
+    Log.d("Phan", "PropertyItem recompose")
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier

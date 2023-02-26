@@ -74,7 +74,7 @@ class HomeStateMachine @Inject constructor(
     @VisibleForTesting
     val navigationSideEffect = createNavigationSideEffect<HomeAction> { _, action ->
         when (action) {
-            is HomeAction.PropertyClick -> HomeNavigation.OpenDetailScreen
+            is HomeAction.PropertyClick -> HomeNavigation.OpenDetailScreen(action.propertyId)
             else -> null
         }
     }

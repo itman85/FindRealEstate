@@ -5,18 +5,11 @@ import ch.com.findrealestate.features.home.redux.HomeAction
 import ch.com.findrealestate.features.home.redux.HomeNavigation
 import ch.com.findrealestate.features.home.redux.HomeState
 import ch.com.findrealestate.features.home.redux.HomeStateMachine
-import ch.com.findrealestate.navigation.NavigationManager
-import ch.com.findrealestate.navigation.NavigationRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeStateViewModel @Inject constructor(
-    stateMachine: HomeStateMachine,
-    private val navigationManager: NavigationManager
-) : BaseStateViewModel<HomeState, HomeAction, HomeNavigation>(stateMachine) {
-    fun navigateToDetail() {
-        navigationManager.navigate(NavigationRoutes.detail)
-    }
-}
+    stateMachine: HomeStateMachine
+) : BaseStateViewModel<HomeState, HomeAction, HomeNavigation>(stateMachine)
 

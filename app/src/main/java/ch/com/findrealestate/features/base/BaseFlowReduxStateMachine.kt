@@ -1,8 +1,6 @@
 package ch.com.findrealestate.features.base
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.produceState
+import android.util.Log
 import com.freeletics.flowredux.Reducer
 import com.freeletics.flowredux.SideEffect
 import com.freeletics.flowredux.dsl.StateMachine
@@ -21,7 +19,7 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
 
     private lateinit var outputState: Flow<S>
 
-    open val navigationFlow = Channel<N>()
+    val navigationFlow = Channel<N>()
 
     private val activeFlowCounter = AtomicCounter(0)
 
@@ -80,17 +78,15 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
         noinline navigationTransformer: (S, A) -> N?
     ): SideEffect<S, A> = { actions, getState ->
         actions.ofType(A::class)
+            .throttleDistinct(1000)
             .mapNotNull { navigationTransformer(getState(), it) }
-            .onEach { navigationFlow.send(it) }
+            .onEach {
+                Log.d("Phan1", "receive action navigate to $it")
+                navigationFlow.send(it)
+            }
             .flatMapLatest { emptyFlow() }
     }
 }
 
-@ExperimentalCoroutinesApi
-@FlowPreview
-@Composable
-fun <S : Any, A : Any, N: Any> BaseFlowReduxStateMachine<S, A, N>.rememberNavigation(): State<N?> {
-    return produceState<N?>(initialValue = null, this) {
-        navigation.collect { value = it }
-    }
-}
+
+
