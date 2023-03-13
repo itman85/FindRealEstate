@@ -1,18 +1,40 @@
 package ch.com.findrealestate.features.detail
 
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.activity.ComponentActivity
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
+import ch.com.findrealestate.components.Loading
+import ch.com.findrealestate.domain.entity.PropertyDetail
+import ch.com.findrealestate.features.detail.redux.DetailAction
+import ch.com.findrealestate.features.detail.redux.DetailState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(propertyId: String?, navigator: DetailNavigator) {
+    val activity = LocalContext.current as ComponentActivity
+    val viewModel: DetailStateViewModel by activity.viewModels()
+    LaunchedEffect(Unit) {
+        propertyId?.let { viewModel.dispatch(DetailAction.LoadDetailData(it)) }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -26,10 +48,67 @@ fun DetailScreen(propertyId: String?, navigator: DetailNavigator) {
             )
         }
     ) { paddingValues ->
+        if (propertyId != null) {
+            val detailState by viewModel.rememberState()
+            val modifier = Modifier.padding(paddingValues)
+            when (detailState) {
+                is DetailState.DetailDataLoading -> DetailLoadingComponent(modifier, propertyId)
+                is DetailState.DetailDataLoadedError -> DetailLoadedErrorComponent(
+                    modifier,
+                    propertyId,
+                    (detailState as DetailState.DetailDataLoadedError).errorMsg
+                )
+                is DetailState.DetailDataLoaded -> DetailInfoComponent(
+                    modifier = modifier,
+                    propertyDetail = (detailState as DetailState.DetailDataLoaded).propertyDetail
+                )
+                else -> {
+                    // do nothing
+                }
+            }
+        } else {
+            Text(
+                text = "Property Id invalid",
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(paddingValues)
+            )
+        }
+    }
+    DisposableEffect(Unit){
+        onDispose {
+            activity.viewModelStore.clear()
+        }
+    }
+}
+
+@Composable
+fun DetailLoadingComponent(modifier: Modifier, propertyId: String) {
+    Column(modifier = modifier) {
         Text(
-            text = "Detail Info for Property: ${propertyId ?: "No Id Available"}",
+            text = "Loading detail data for Property Id $propertyId",
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(paddingValues).fillMaxSize()
+            modifier = modifier
         )
+        Spacer(modifier = modifier.padding(top = 16.dp))
+        Loading()
+    }
+}
+
+@Composable
+fun DetailLoadedErrorComponent(modifier: Modifier, propertyId: String, errMsg: String) {
+    Text(
+        text = "Load detail data for Property Id $propertyId Error $errMsg",
+        textAlign = TextAlign.Center,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun DetailInfoComponent(modifier: Modifier, propertyDetail: PropertyDetail) {
+    Column(modifier = modifier) {
+        Text(text = propertyDetail.title)
+        Spacer(modifier = modifier.padding(top = 8.dp))
+        Text(text = propertyDetail.description)
     }
 }

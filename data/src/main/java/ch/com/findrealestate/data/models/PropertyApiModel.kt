@@ -14,22 +14,22 @@ data class PropertyApiModel(
     val size: Int? = null,
     @SerializedName("total")
     val total: Int? = null
-) {
-    data class ResultApiModel(
-        @SerializedName("id")
-        val id: String? = null,
-        @SerializedName("listerBranding")
-        val listerBranding: ListerBrandingApiModel? = null,
-        @SerializedName("listing")
-        val listing: ListingApiModel? = null,
-        @SerializedName("listingType")
-        val listingType: ListingTypeApiModel? = null,
-        @SerializedName("remoteViewing")
-        val remoteViewing: Boolean? = null
-    )
-}
+)
 
-fun PropertyApiModel.ResultApiModel.asProperty() = Property(
+data class ResultApiModel(
+    @SerializedName("id")
+    val id: String? = null,
+    @SerializedName("listerBranding")
+    val listerBranding: ListerBrandingApiModel? = null,
+    @SerializedName("listing")
+    val listing: ListingApiModel? = null,
+    @SerializedName("listingType")
+    val listingType: ListingTypeApiModel? = null,
+    @SerializedName("remoteViewing")
+    val remoteViewing: Boolean? = null
+)
+
+fun ResultApiModel.asProperty() = Property(
     id = id.orEmpty(),
     imageUrl = listing?.localization?.de?.attachments?.firstOrNull()?.url.orEmpty(),
     title = listing?.localization?.de?.text?.title.orEmpty(),

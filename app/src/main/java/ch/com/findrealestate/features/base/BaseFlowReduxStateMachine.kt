@@ -25,8 +25,7 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
 
     protected abstract val initialState: S
 
-    protected abstract val initAction: A
-
+    protected open val initAction: A? = null
     protected abstract fun sideEffects(): List<SideEffect<S, A>>
 
     protected abstract fun reducer(): Reducer<S, A>
@@ -35,7 +34,7 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
         outputState = inputActions
             .receiveAsFlow()
             .onStart {
-                emit(initAction)
+                initAction?.let { emit(it) }
             }
             .reduxStore(
                 initialStateSupplier = { initialState },
@@ -57,6 +56,11 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
             }
     }
 
+    fun dispose(){
+        inputActions.close()
+        navigationFlow.close()
+    }
+
 
     override val state: Flow<S>
         get() = outputState
@@ -64,13 +68,14 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
     val navigation: Flow<N> = navigationFlow.receiveAsFlow()
 
     override suspend fun dispatch(action: A) {
-        if (activeFlowCounter.get() <= 0) {
+        // todo check this needed?
+       /* if (activeFlowCounter.get() <= 0) {
             throw IllegalStateException(
                 "Cannot dispatch action $action because state Flow of this " +
                         "FlowReduxStateMachine is not collected yet. " +
                         "Start collecting the state Flow before dispatching any action."
             )
-        }
+        }*/
         inputActions.send(action)
     }
 

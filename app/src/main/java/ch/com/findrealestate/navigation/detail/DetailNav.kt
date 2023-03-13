@@ -1,11 +1,11 @@
 package ch.com.findrealestate.navigation.detail
 
+import androidx.compose.material3.Text
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import ch.com.findrealestate.features.detail.DetailScreen
 import ch.com.findrealestate.navigation.Destinations
-import ch.com.findrealestate.navigation.parcelableData
 
 fun NavGraphBuilder.detail(navController: NavController) {
     composable(route = Destinations.DetailScreen().route) { entry ->
@@ -13,7 +13,10 @@ fun NavGraphBuilder.detail(navController: NavController) {
             navController.currentDestination?.route
         if (currentScreenRoute == Destinations.DetailScreen().route) {
             val data = entry.arguments?.getString(Destinations.DetailScreen().detailData)
-            DetailScreen( propertyId = data,navigator = DetailNavigatorImpl(navController))
+            DetailScreen(
+                propertyId = data,
+                navigator = DetailNavigatorImpl(navController)
+            )
         }
     }
 }
