@@ -8,10 +8,6 @@ import ch.com.findrealestate.features.home.HomeScreen
 
 fun NavGraphBuilder.home(navController: NavController) {
     composable(route = Destinations.HomeScreen.route) {
-        val currentScreenRoute =
-            navController.currentDestination?.route
-        if (currentScreenRoute == it.destination.route) {
-            HomeScreen(navigator = HomeNavigatorImpl(navController))
-        }
+        HomeScreen(navigator = HomeNavigatorImpl(navController))
     }
 }

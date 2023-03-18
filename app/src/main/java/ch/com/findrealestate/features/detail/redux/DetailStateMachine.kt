@@ -7,6 +7,7 @@ import ch.com.findrealestate.features.base.ofType
 import com.freeletics.flowredux.Reducer
 import com.freeletics.flowredux.SideEffect
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -16,6 +17,7 @@ class DetailStateMachine @Inject constructor(private val getPropertyDetail: GetP
     BaseFlowReduxStateMachine<DetailState, DetailAction, DetailNavigation>() {
 
 
+    @FlowPreview
     override val initialState: DetailState = DetailState.Init
 
     override fun sideEffects(): List<SideEffect<DetailState, DetailAction>> =

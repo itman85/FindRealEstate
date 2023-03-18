@@ -1,7 +1,7 @@
 package ch.com.findrealestate.features.detail
 
+import android.util.Log
 import androidx.activity.ComponentActivity
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -17,11 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.ViewModelStoreOwner
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import ch.com.findrealestate.components.Loading
 import ch.com.findrealestate.domain.entity.PropertyDetail
 import ch.com.findrealestate.features.detail.redux.DetailAction
@@ -30,8 +26,7 @@ import ch.com.findrealestate.features.detail.redux.DetailState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(propertyId: String?, navigator: DetailNavigator) {
-    val activity = LocalContext.current as ComponentActivity
-    val viewModel: DetailStateViewModel by activity.viewModels()
+    val viewModel: DetailStateViewModel = hiltViewModel()
     LaunchedEffect(Unit) {
         propertyId?.let { viewModel.dispatch(DetailAction.LoadDetailData(it)) }
     }
@@ -75,9 +70,9 @@ fun DetailScreen(propertyId: String?, navigator: DetailNavigator) {
             )
         }
     }
-    DisposableEffect(Unit){
+    DisposableEffect(Unit) {
         onDispose {
-            activity.viewModelStore.clear()
+            Log.d("Phan", "detail composable disposed")
         }
     }
 }

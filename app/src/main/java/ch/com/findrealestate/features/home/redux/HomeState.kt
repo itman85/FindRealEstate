@@ -1,5 +1,7 @@
 package ch.com.findrealestate.features.home.redux
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import ch.com.findrealestate.domain.entity.Property
 
 sealed class HomeState {

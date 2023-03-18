@@ -1,8 +1,6 @@
 package ch.com.findrealestate.features.home
 
 import android.util.Log
-import androidx.activity.ComponentActivity
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,32 +12,35 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
 import ch.com.findrealestate.components.Loading
 import ch.com.findrealestate.components.PriceView
 import ch.com.findrealestate.components.SmgErrorView
 import ch.com.findrealestate.components.SmgImage
 import ch.com.findrealestate.domain.entity.Property
+import ch.com.findrealestate.features.base.collectState
+import ch.com.findrealestate.features.detail.redux.DetailAction
 import ch.com.findrealestate.features.home.redux.HomeAction
-import ch.com.findrealestate.features.home.redux.HomeState
 import ch.com.findrealestate.features.home.redux.HomeNavigation
+import ch.com.findrealestate.features.home.redux.HomeState
 import ch.com.findrealestate.ui.theme.FindRealEstateTheme
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
 /*
 ToDo: viewModel lifecycle follow activity lifecycle, so when composable disposed, view model still alive
  to manage memory efficiently, view model should destroy as composable disposed, and just save state as needed.
  For example:  from list open detail, it should save state of list, but when from detail back to list it should destroy detail view model
  Research to see how to use ViewModelStoreOwner manage view model lifecycle
+ ---> this issue solved by using hiltViewModel(), viewModelStoreOwner will bind to navigation, when route popped from back stack, view model will be cleared
 class MyViewModelStoreOwner : ViewModelStoreOwner {
     private val viewModelStore = ViewModelStore()
 
@@ -61,35 +62,47 @@ DisposableEffect(Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navigator: HomeNavigator) {
-    val activity = LocalContext.current as ComponentActivity
-    val  viewModel: HomeStateViewModel by activity.viewModels()
+    val viewModel: HomeStateViewModel = hiltViewModel()
     Log.d("Phan", "home screen recompose")
+    // use this way or set initAction for state machine
+    //viewModel.startLoadData()
     Scaffold(topBar = {
         TopAppBar(title = { Text("Real Estate") })
     }) { paddingValues ->
         PropertiesList(viewModel, navigator, paddingValues)
     }
-    DisposableEffect(Unit){
+    DisposableEffect(Unit) {
         onDispose {
-            activity.viewModelStore.clear()
-
+            Log.d("Phan", "home composable disposed")
         }
     }
 }
 
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @Composable
-fun PropertiesList(viewModel: HomeStateViewModel, navigator: HomeNavigator, paddingValues: PaddingValues) {
-    val homeState by viewModel.rememberState()
-    Log.d("Phan", "home state change $homeState")
+fun PropertiesList(
+    viewModel: HomeStateViewModel,
+    navigator: HomeNavigator,
+    paddingValues: PaddingValues
+) {
+
+    //val homeState by viewModel.rememberState()
+    val homeStateValue =
+        viewModel.rememberState().value // use homeState value instead of this way: homeState by viewModel.rememberState(). this will help to avoid recompose in composable which is linked to this remember state
+    Log.d("Phan", "home state change $homeStateValue")
     val homeNavigation by viewModel.rememberNavigation()
     Log.d("Phan", "navigation change $homeNavigation")
-    when(homeNavigation){
-        is HomeNavigation.OpenDetailScreen -> navigator.navigateToDetail((homeNavigation as HomeNavigation.OpenDetailScreen).propertyId)
-        else -> {
-            // No navigation, just stay Home screen
+    LaunchedEffect(homeNavigation) {
+        // should put all computation stuffs into LaunchedEffect, to avoid re-computing everytime enter recomposition
+        when (homeNavigation) {
+            is HomeNavigation.OpenDetailScreen -> navigator.navigateToDetail((homeNavigation as HomeNavigation.OpenDetailScreen).propertyId)
+            else -> {
+                Log.i("Phan", "No navigation, just stay Home screen")
+            }
         }
     }
 
+    // should not mix expensive computation into UI stuffs, UI stuffs get recomposed un-controlled, depend on system.
     val scrollableState = rememberLazyListState()
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -99,7 +112,9 @@ fun PropertiesList(viewModel: HomeStateViewModel, navigator: HomeNavigator, padd
         item {
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
         }
-        when (homeState) {
+        // homeState here should be value, not a remember state, so it will avoid recompose this composable content of LazyColumn
+        // NOTE: should not link composable to remember state
+        when (homeStateValue) {
             is HomeState.Loading -> {
                 item {
                     Loading()
@@ -112,7 +127,7 @@ fun PropertiesList(viewModel: HomeStateViewModel, navigator: HomeNavigator, padd
             }
             is HomeState.PropertiesLoaded,
             is HomeState.PropertiesListUpdated -> {
-                val propertiesList = homeState!!.properties
+                val propertiesList = homeStateValue!!.properties
                 items(
                     count = propertiesList.size,
                     key = { index -> propertiesList[index].id }) { index ->
@@ -131,7 +146,7 @@ fun PropertiesList(viewModel: HomeStateViewModel, navigator: HomeNavigator, padd
                 }
             }
             else -> {
-                Log.i("HomeScreen", "Not update ui for this state $homeState")
+                Log.i("Phan", "Not update ui for this state $homeStateValue")
             }
         }
         item {

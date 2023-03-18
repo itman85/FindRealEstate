@@ -23,7 +23,7 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
 
     private val activeFlowCounter = AtomicCounter(0)
 
-    protected abstract val initialState: S
+    abstract val initialState: S
 
     protected open val initAction: A? = null
     protected abstract fun sideEffects(): List<SideEffect<S, A>>
@@ -86,7 +86,7 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
             .throttleDistinct(1000)
             .mapNotNull { navigationTransformer(getState(), it) }
             .onEach {
-                Log.d("Phan1", "receive action navigate to $it")
+                Log.d("Phan", "receive action navigate to $it")
                 navigationFlow.send(it)
             }
             .flatMapLatest { emptyFlow() }

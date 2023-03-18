@@ -9,14 +9,10 @@ import ch.com.findrealestate.navigation.Destinations
 
 fun NavGraphBuilder.detail(navController: NavController) {
     composable(route = Destinations.DetailScreen().route) { entry ->
-        val currentScreenRoute =
-            navController.currentDestination?.route
-        if (currentScreenRoute == Destinations.DetailScreen().route) {
-            val data = entry.arguments?.getString(Destinations.DetailScreen().detailData)
-            DetailScreen(
-                propertyId = data,
-                navigator = DetailNavigatorImpl(navController)
-            )
-        }
+        val data = entry.arguments?.getString(Destinations.DetailScreen().detailData)
+        DetailScreen(
+            propertyId = data,
+            navigator = DetailNavigatorImpl(navController)
+        )
     }
 }

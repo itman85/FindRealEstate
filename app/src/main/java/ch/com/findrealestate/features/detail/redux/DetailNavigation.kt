@@ -1,5 +1,5 @@
 package ch.com.findrealestate.features.detail.redux
 
-sealed class DetailNavigation {
+import ch.com.findrealestate.features.detail.DetailNavigator
 
-}
+sealed class DetailNavigation

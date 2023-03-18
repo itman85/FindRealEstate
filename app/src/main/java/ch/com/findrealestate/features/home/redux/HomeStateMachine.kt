@@ -55,7 +55,7 @@ class HomeStateMachine @Inject constructor(
     @VisibleForTesting
     val loadPropertiesSideEffect: SideEffect<HomeState, HomeAction> = { actions, _ ->
         actions.ofType(HomeAction.StartLoadData::class)
-            .onEach { Log.d("LoadPropertiesSE", it.toString()) }
+            .onEach { Log.d("Phan", "Start Loading Properties") }
             .flatMapLatest {
                 flow {
                     try {

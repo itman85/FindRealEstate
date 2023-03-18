@@ -11,5 +11,11 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeStateViewModel @Inject constructor(
     stateMachine: HomeStateMachine
-) : BaseStateViewModel<HomeState, HomeAction, HomeNavigation>(stateMachine)
+) : BaseStateViewModel<HomeState, HomeAction, HomeNavigation>(stateMachine) {
+     fun startLoadData() {
+         // use this way or set initAction for state machine
+        if (stateflow.value == HomeState.Init)
+            dispatch(HomeAction.StartLoadData)
+    }
+}
 

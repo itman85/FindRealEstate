@@ -1,5 +1,9 @@
 package ch.com.findrealestate.domain.entity
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+
 data class Property(
     val id: String,
     val imageUrl: String,
