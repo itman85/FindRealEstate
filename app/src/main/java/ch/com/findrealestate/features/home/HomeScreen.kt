@@ -26,50 +26,51 @@ import ch.com.findrealestate.components.PriceView
 import ch.com.findrealestate.components.SmgErrorView
 import ch.com.findrealestate.components.SmgImage
 import ch.com.findrealestate.domain.entity.Property
-import ch.com.findrealestate.features.base.collectState
-import ch.com.findrealestate.features.detail.redux.DetailAction
 import ch.com.findrealestate.features.home.redux.HomeAction
-import ch.com.findrealestate.features.home.redux.HomeNavigation
 import ch.com.findrealestate.features.home.redux.HomeState
 import ch.com.findrealestate.ui.theme.FindRealEstateTheme
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 
-/*
-ToDo: viewModel lifecycle follow activity lifecycle, so when composable disposed, view model still alive
- to manage memory efficiently, view model should destroy as composable disposed, and just save state as needed.
- For example:  from list open detail, it should save state of list, but when from detail back to list it should destroy detail view model
- Research to see how to use ViewModelStoreOwner manage view model lifecycle
- ---> this issue solved by using hiltViewModel(), viewModelStoreOwner will bind to navigation, when route popped from back stack, view model will be cleared
-class MyViewModelStoreOwner : ViewModelStoreOwner {
-    private val viewModelStore = ViewModelStore()
-
-    override fun getViewModelStore(): ViewModelStore {
-        return viewModelStore
-    }
-}
-val viewModel = viewModel<MyViewModel>(viewModelStoreOwner = viewModelStoreOwner)
-
-val viewModelStoreOwner = remember { MyViewModelStoreOwner() }
-
-DisposableEffect(Unit) {
-    onDispose {
-        viewModelStoreOwner.viewModelStore.clear()
-    }
-}
-
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navigator: HomeNavigator) {
-    val viewModel: HomeStateViewModel = hiltViewModel()
     Log.d("Phan", "home screen recompose")
+    val viewModel: HomeStateViewModel =
+        hiltViewModel<HomeStateViewModel>().apply { this.setNavigator(navigator) } // todo: any way to pass navigator as parameter of HomeStateViewModel or inject into view model?
+
     // use this way or set initAction for state machine
     //viewModel.startLoadData()
+    //val homeState by viewModel.rememberState()
+
+    val homeStateValue =
+        viewModel.rememberState().value // use homeState value instead of this way: homeState by viewModel.rememberState(). this will help to avoid recompose in composable which is linked to this remember state
+    Log.d("Phan", "home state change $homeStateValue")
+
+    // val homeNavigationValue = viewModel.rememberNavigation().value
+    // Log.d("Phan", "navigation change $homeNavigationValue")
+    /* LaunchedEffect(homeNavigationValue) {
+         // should put all computation stuffs into LaunchedEffect, to avoid re-computing everytime enter recomposition
+         when (homeNavigationValue) {
+             is HomeNavigation.OpenDetailScreen -> navigator.navigateToDetail(homeNavigationValue.propertyId)
+             else -> {
+                 Log.i("Phan", "No navigation, just stay Home screen")
+             }
+         }
+     }
+     */
+
     Scaffold(topBar = {
         TopAppBar(title = { Text("Real Estate") })
     }) { paddingValues ->
-        PropertiesList(viewModel, navigator, paddingValues)
+        PropertiesList(
+            homeStateValue,
+            paddingValues,
+            favoriteClick = { id -> viewModel.dispatch(HomeAction.FavoriteClick(id)) },
+            propertyClick = { id -> viewModel.dispatch(HomeAction.PropertyClick(id)) },
+            favoriteDialogYesClick = { viewModel.dispatch(HomeAction.FavoriteDialogYesClick) },
+            confirmRemoveFavoriteDialogYes = { id ->
+                viewModel.dispatch(HomeAction.ConfirmRemoveFavoriteYesClick(id))
+            },
+            confirmRemoveFavoriteDialogNo = { viewModel.dispatch(HomeAction.ConfirmRemoveFavoriteNoClick) })
     }
     DisposableEffect(Unit) {
         onDispose {
@@ -78,30 +79,16 @@ fun HomeScreen(navigator: HomeNavigator) {
     }
 }
 
-@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @Composable
 fun PropertiesList(
-    viewModel: HomeStateViewModel,
-    navigator: HomeNavigator,
-    paddingValues: PaddingValues
+    homeState: HomeState,
+    paddingValues: PaddingValues,
+    favoriteClick: (String) -> Unit,
+    propertyClick: (String) -> Unit,
+    favoriteDialogYesClick: () -> Unit,
+    confirmRemoveFavoriteDialogYes: (String) -> Unit,
+    confirmRemoveFavoriteDialogNo: () -> Unit
 ) {
-
-    //val homeState by viewModel.rememberState()
-    val homeStateValue =
-        viewModel.rememberState().value // use homeState value instead of this way: homeState by viewModel.rememberState(). this will help to avoid recompose in composable which is linked to this remember state
-    Log.d("Phan", "home state change $homeStateValue")
-    val homeNavigation by viewModel.rememberNavigation()
-    Log.d("Phan", "navigation change $homeNavigation")
-    LaunchedEffect(homeNavigation) {
-        // should put all computation stuffs into LaunchedEffect, to avoid re-computing everytime enter recomposition
-        when (homeNavigation) {
-            is HomeNavigation.OpenDetailScreen -> navigator.navigateToDetail((homeNavigation as HomeNavigation.OpenDetailScreen).propertyId)
-            else -> {
-                Log.i("Phan", "No navigation, just stay Home screen")
-            }
-        }
-    }
-
     // should not mix expensive computation into UI stuffs, UI stuffs get recomposed un-controlled, depend on system.
     val scrollableState = rememberLazyListState()
     LazyColumn(
@@ -112,9 +99,10 @@ fun PropertiesList(
         item {
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
         }
+        Log.d("Phan", "Recompose list $homeState")
         // homeState here should be value, not a remember state, so it will avoid recompose this composable content of LazyColumn
         // NOTE: should not link composable to remember state
-        when (homeStateValue) {
+        when (homeState) {
             is HomeState.Loading -> {
                 item {
                     Loading()
@@ -126,33 +114,95 @@ fun PropertiesList(
                 }
             }
             is HomeState.PropertiesLoaded,
+            is HomeState.AddFavoriteSuccessful,
+            is HomeState.ConfirmFavoriteRemoved,
             is HomeState.PropertiesListUpdated -> {
-                val propertiesList = homeStateValue!!.properties
+                val propertiesList = homeState.properties
                 items(
                     count = propertiesList.size,
                     key = { index -> propertiesList[index].id }) { index ->
                     propertiesList[index].let { property ->
                         PropertyItem(
                             property,
-                            toggleFavorite = { id ->
-                                viewModel.dispatch(HomeAction.FavoriteClick(id))
-                            },
-                            propertyClick = { id ->
-                                viewModel.dispatch(HomeAction.PropertyClick(id))
-                            }
+                            toggleFavorite = favoriteClick,
+                            propertyClick = propertyClick
                         )
                         Divider()
                     }
                 }
             }
             else -> {
-                Log.i("Phan", "Not update ui for this state $homeStateValue")
+                Log.i("Phan", "Not update ui for this state $homeState")
             }
         }
         item {
             Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing))
         }
     }
+    if (homeState is HomeState.AddFavoriteSuccessful) {
+        AddFavoriteSuccessfulDialog(
+            property = homeState.favoriteProperty,
+            onYesClick = favoriteDialogYesClick
+        )
+    } else if (homeState is HomeState.ConfirmFavoriteRemoved) {
+        ConfirmFavoriteRemovedDialog(
+            propertyId = homeState.propertyId,
+            confirmRemoveFavoriteDialogYes,
+            confirmRemoveFavoriteDialogNo
+        )
+    }
+
+}
+
+@Composable
+fun AddFavoriteSuccessfulDialog(
+    property: Property,
+    onYesClick: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = {
+            onYesClick() // same logic to yes click
+        },
+        title = { Text("Add favorite for property id ${property.id} successfully!") },
+        confirmButton = {
+            TextButton(onClick = {
+                // Handle yes button click
+                onYesClick()
+            }) {
+                Text("Close")
+            }
+        }
+    )
+}
+
+@Composable
+fun ConfirmFavoriteRemovedDialog(
+    propertyId: String,
+    onYesClick: (String) -> Unit,
+    onNoClick: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = {
+            onNoClick() // same logic to No click
+        },
+        title = { Text("Are you sure you want to remove favorite for property id  $propertyId ?") },
+        confirmButton = {
+            TextButton(onClick = {
+                // Handle yes button click
+                onYesClick(propertyId)
+            }) {
+                Text("Yes")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = {
+                // Handle undo button click
+                onNoClick()
+            }) {
+                Text("No")
+            }
+        }
+    )
 }
 
 @Composable

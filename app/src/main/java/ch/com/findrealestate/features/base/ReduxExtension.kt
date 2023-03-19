@@ -51,20 +51,10 @@ fun <T> Flow<T>.throttleDistinct(periodMillis: Long): Flow<T> {
 fun <S : Any, A : Any, N : Any> BaseFlowReduxStateMachine<S, A, N>.rememberNavigation(): State<N?> {
     return produceState<N?>(initialValue = null, this) {
         navigation.collect {
-            Log.d("Phan3", "navigation collect $it")
+            Log.d("Phan2", "navigation collect $it")
+            lastNavigationValue = it
             value = it
         }
     }
 }
 
-@Composable
-fun <T : R, R> Flow<T>.collectState(
-    initial: R? = null,
-    context: CoroutineContext = EmptyCoroutineContext
-): State<R?> = produceState(initial, this, context) {
-    if (context == EmptyCoroutineContext) {
-        collect { value = it }
-    } else withContext(context) {
-        collect { value = it }
-    }
-}

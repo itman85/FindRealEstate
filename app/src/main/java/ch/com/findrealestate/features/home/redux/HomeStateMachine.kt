@@ -38,16 +38,39 @@ class HomeStateMachine @Inject constructor(
 
     override fun reducer(): Reducer<HomeState, HomeAction> = { state, action ->
         when (action) {
-            is HomeAction.StartLoadData -> HomeState.Loading
-            is HomeAction.DataLoadedError -> HomeState.Error(action.error ?: "")
-            is HomeAction.DataLoaded -> HomeState.PropertiesLoaded(action.properties)
+            is HomeAction.StartLoadData -> HomeState.Loading(state)
+
+            is HomeAction.DataLoadedError -> HomeState.Error(state, action.error ?: "")
+
+            is HomeAction.DataLoaded -> HomeState.PropertiesLoaded(state, action.properties)
+
             is HomeAction.FavoriteUpdated -> {
-                HomeState.PropertiesListUpdated(properties = state.properties.map {
+                val properties = state.properties.map {
                     if (it.id == action.propertyId)
                         it.copy(isFavorite = action.isFavorite)
                     else it
-                })
+                }
+                if (action.isFavorite) {
+                    HomeState.AddFavoriteSuccessful(
+                        state,
+                        properties = properties,
+                        favoriteProperty = properties.first { it.id == action.propertyId }
+                    )
+                } else {
+                    HomeState.PropertiesListUpdated(state, properties = properties)
+                }
             }
+
+            is HomeAction.FavoriteDialogYesClick,
+            is HomeAction.ConfirmRemoveFavoriteNoClick -> HomeState.PropertiesListUpdated(
+                state,
+                properties = state.properties
+            )
+
+            is HomeAction.ConfirmRemoveFavorite -> HomeState.ConfirmFavoriteRemoved(
+                state,
+                action.propertyId
+            )
             else -> state
         }
     }

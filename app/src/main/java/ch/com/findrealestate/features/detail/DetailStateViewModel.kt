@@ -10,4 +10,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailStateViewModel @Inject constructor(stateMachine: DetailStateMachine) :
-    BaseStateViewModel<DetailState, DetailAction, DetailNavigation>(stateMachine)
+    BaseStateViewModel<DetailState, DetailAction, DetailNavigation>(stateMachine) {
+    override fun handleNavigation(navigation: DetailNavigation) {
+        // do something if needed
+    }
+}
