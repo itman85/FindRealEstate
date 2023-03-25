@@ -4,7 +4,7 @@
     "config:base",
     "group:all",
     ":dependencyDashboard",
-    "schedule:daily"
+    "schedule:weekly"
   ],
   "baseBranches": [
     "main"
