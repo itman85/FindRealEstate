@@ -8,8 +8,10 @@ import com.freeletics.flowredux.Reducer
 import com.freeletics.flowredux.SideEffect
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -18,10 +20,10 @@ class DetailStateMachine @Inject constructor(private val getPropertyDetail: GetP
 
 
     @FlowPreview
-    override val initialState: DetailState = DetailState.Init
+    override val initialState: DetailState = DetailState()
 
     override fun sideEffects(): List<SideEffect<DetailState, DetailAction>> =
-        listOf(loadPropertyDetailSideEffect)
+        listOf(loadPropertyDetailSideEffect, navigationSideEffect, screenResumeSideEffect)
 
     @VisibleForTesting
     val loadPropertyDetailSideEffect: SideEffect<DetailState, DetailAction> = { actions, _ ->
@@ -48,11 +50,41 @@ class DetailStateMachine @Inject constructor(private val getPropertyDetail: GetP
             }
     }
 
+    @VisibleForTesting
+    val navigationSideEffect = createNavigationSideEffect<DetailAction> { state, action ->
+        when (action) {
+            is DetailAction.OpenPropertyWebsiteClick -> DetailNavigation.OpenPropertyWebsite("https://www.homegate.ch/en/${state.propertyId}")
+            else -> null
+        }
+    }
+
+    @VisibleForTesting
+    val screenResumeSideEffect: SideEffect<DetailState, DetailAction> = { actions, _ ->
+        actions.ofType(DetailAction.ScreenResumed::class)
+            .onEach { navigationFlow.send(DetailNavigation.NoNavigation) } // reset navigation
+            .flatMapLatest {
+                when (it.lastNavigation) {
+                    is DetailNavigation.OpenPropertyWebsite -> flow { emit(DetailAction.ToggleShowPropertyInfoBottomSheet(true)) }
+                    else -> emptyFlow()
+                }
+            }
+    }
+
+    @FlowPreview
     override fun reducer(): Reducer<DetailState, DetailAction> = { state, action ->
         when (action) {
-            is DetailAction.DetailDataLoading -> DetailState.DetailDataLoading
-            is DetailAction.DetailDataLoaded -> DetailState.DetailDataLoaded(action.data)
-            is DetailAction.DetailDataLoadedError -> DetailState.DetailDataLoadedError(action.errorMsg)
+            is DetailAction.LoadDetailData -> state.copy(propertyId = action.propertyId)
+            is DetailAction.DetailDataLoading -> state.copy(isLoading = true)
+            is DetailAction.DetailDataLoaded -> state.copy(
+                detailProperty = action.data,
+                isLoading = false,
+                errorMsg = null
+            )
+            is DetailAction.DetailDataLoadedError -> state.copy(
+                isLoading = false,
+                errorMsg = action.errorMsg
+            )
+            is DetailAction.ToggleShowPropertyInfoBottomSheet -> state.copy(isShowInfoBottomSheet = action.isShow)
             else -> state
         }
     }

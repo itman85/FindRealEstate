@@ -1,6 +1,7 @@
 package ch.com.findrealestate
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
@@ -27,6 +28,21 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("MainActivity","Resume")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("MainActivity","Stop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("MainActivity","Destroy")
     }
 }
 

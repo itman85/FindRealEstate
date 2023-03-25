@@ -11,4 +11,10 @@ sealed interface DetailAction {
     object DetailDataLoading : DetailAction
 
     data class DetailDataLoadedError(val errorMsg: String) : DetailAction
+
+    object OpenPropertyWebsiteClick : DetailAction
+
+    data class ScreenResumed(val lastNavigation: DetailNavigation?) : DetailAction
+
+    data class ToggleShowPropertyInfoBottomSheet(val isShow:Boolean) : DetailAction
 }

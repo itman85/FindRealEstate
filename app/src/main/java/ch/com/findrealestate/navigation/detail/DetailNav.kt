@@ -1,6 +1,8 @@
 package ch.com.findrealestate.navigation.detail
 
+import android.app.Activity
 import androidx.compose.material3.Text
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -12,7 +14,7 @@ fun NavGraphBuilder.detail(navController: NavController) {
         val data = entry.arguments?.getString(Destinations.DetailScreen().detailData)
         DetailScreen(
             propertyId = data,
-            navigator = DetailNavigatorImpl(navController)
+            navigator = DetailNavigatorImpl(navController, LocalContext.current as Activity)
         )
     }
 }

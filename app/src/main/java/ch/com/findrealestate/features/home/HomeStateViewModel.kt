@@ -1,6 +1,7 @@
 package ch.com.findrealestate.features.home
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import ch.com.findrealestate.features.base.BaseStateViewModel
 import ch.com.findrealestate.features.home.redux.HomeAction
 import ch.com.findrealestate.features.home.redux.HomeNavigation

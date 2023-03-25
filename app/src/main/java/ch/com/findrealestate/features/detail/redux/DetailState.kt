@@ -2,9 +2,14 @@ package ch.com.findrealestate.features.detail.redux
 
 import ch.com.findrealestate.domain.entity.PropertyDetail
 
-sealed class DetailState {
-    object Init : DetailState()
-    data class DetailDataLoaded(val propertyDetail: PropertyDetail) : DetailState()
-    object DetailDataLoading : DetailState()
-    data class DetailDataLoadedError(val errorMsg: String) : DetailState()
+data class DetailState(
+    val propertyId: String? = null,
+    val detailProperty: PropertyDetail? = null,
+    val isLoading: Boolean = false,
+    val errorMsg: String? = null,
+    val isShowInfoBottomSheet: Boolean = false
+){
+    fun isLoadingState() = isLoading
+    fun isDataLoaded() = detailProperty!=null
+    fun isErrorState() = !errorMsg.isNullOrEmpty()
 }
