@@ -36,8 +36,10 @@ class HomeStateMachine @Inject constructor(
             navigationSideEffect
         )
 
-    override fun reducer(): Reducer<HomeState, HomeAction> = { state, action ->
-        when (action) {
+    override fun reducer(): Reducer<HomeState, HomeAction> = this::reducer
+
+    fun reducer(state: HomeState, action: HomeAction): HomeState {
+        return when (action) {
             is HomeAction.StartLoadData -> HomeState.Loading(state)
 
             is HomeAction.DataLoadedError -> HomeState.Error(state, action.error ?: "")

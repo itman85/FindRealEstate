@@ -1,6 +1,7 @@
 package ch.com.findrealestate.features.base
 
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import com.freeletics.flowredux.Reducer
 import com.freeletics.flowredux.SideEffect
 import com.freeletics.flowredux.dsl.StateMachine
@@ -30,6 +31,7 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
     protected open val initAction: A? = null
     protected abstract fun sideEffects(): List<SideEffect<S, A>>
 
+    @VisibleForTesting
     protected abstract fun reducer(): Reducer<S, A>
 
     fun initStore() {

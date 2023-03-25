@@ -1,14 +1,20 @@
 package ch.com.findrealestate
 
+import app.cash.turbine.test
+import io.kotlintest.shouldBe
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.selects.select
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert
 import org.junit.Test
 import java.util.concurrent.CountDownLatch
 
+// https://proandroiddev.com/from-rxjava-to-kotlin-flow-throttling-ed1778847619
+@OptIn(ExperimentalCoroutinesApi::class)
 class TestFlow {
     private fun myFlow(): Flow<Int> {
         return flow {
@@ -199,6 +205,17 @@ class TestFlow {
     fun testFlowsThrottleDistinct() {
 
         testFlow1 { throttleDistinct(1000) } // 1,2,3
+
+    }
+
+    @Test
+    fun testFlow() = runTest {
+
+        flowOf("one", "two").test {
+            awaitItem().shouldBe("one")
+            awaitItem().shouldBe("two")
+            awaitComplete()
+        }
 
     }
 
