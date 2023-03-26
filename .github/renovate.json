@@ -10,6 +10,7 @@
     "main"
   ],
   "commitMessageExtra": "{{{currentValue}}} to {{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if isMajor}}{{prettyNewMajor}}{{else}}{{#if isSingleVersion}}{{prettyNewVersion}}{{else}}{{#if newValue}}{{{newValue}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if}}{{/if}}{{/if}}",
+  "autodiscover": true,
   "packageRules": [
     {
       "matchPackagePatterns": [
@@ -28,6 +29,10 @@
         "com.google.devtools.ksp"
       ],
       "groupName": "kotlin"
+    },
+    {
+      "matchPackageNames": ["gradle-wrapper"],
+      "excludePaths": ["gradle/wrapper/gradle-wrapper.properties"]
     }
   ]
 }
