@@ -1,6 +1,7 @@
 package ch.com.findrealestate.data.datasources.remote
 
 import ch.com.findrealestate.data.models.PropertyApiModel
+import ch.com.findrealestate.data.models.ResultApiModel
 import ch.com.findrealestate.domain.entity.Property
 import ch.com.testutils.MockkUnitTest
 import io.mockk.coEvery
@@ -39,7 +40,7 @@ class RemoteDataSourceImplTest : MockkUnitTest() {
         // Given
         coEvery { propertiesApi.getProperties() } returns PropertyApiModel(
             resultApiModels = listOf(
-                PropertyApiModel.ResultApiModel()
+                ResultApiModel()
             )
         )
 

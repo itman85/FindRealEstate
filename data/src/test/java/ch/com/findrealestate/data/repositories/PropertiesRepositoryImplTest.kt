@@ -1,7 +1,7 @@
 package ch.com.findrealestate.data.repositories
 
-import ch.com.findrealestate.domain.datasource.LocalDataSource
-import ch.com.findrealestate.domain.datasource.RemoteDataSource
+import ch.com.findrealestate.data.datasources.local.LocalDataSource
+import ch.com.findrealestate.data.datasources.remote.RemoteDataSource
 import ch.com.testutils.MockkUnitTest
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
