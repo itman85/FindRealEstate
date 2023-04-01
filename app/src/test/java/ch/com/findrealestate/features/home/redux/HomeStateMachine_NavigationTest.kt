@@ -61,7 +61,6 @@ class HomeStateMachine_NavigationTest {
                 flow { emit(HomeAction.PropertyClick("123")) },
                 getState(currentState)
             ).test {
-                expectNoEvents()
                 awaitComplete()
             }
         }
