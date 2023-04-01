@@ -14,11 +14,7 @@ import javax.inject.Inject
 class HomeStateViewModel @Inject constructor(
     stateMachine: HomeStateMachine
 ) : BaseStateViewModel<HomeState, HomeAction, HomeNavigation>(stateMachine) {
-     fun startLoadData() {
-         // use this way or set initAction for state machine
-        if (stateflow.value == HomeState.Init)
-            dispatch(HomeAction.StartLoadData)
-    }
+
     private lateinit var navigator: HomeNavigator
     fun setNavigator(navigator: HomeNavigator){
         this.navigator = navigator
@@ -29,11 +25,10 @@ class HomeStateViewModel @Inject constructor(
         if(!this::navigator.isInitialized){
             error("HomeNavigator is not initialized yet ")
         }
-        Log.d("Phan2", "navigation change $navigation")
         when(navigation){
             is HomeNavigation.OpenDetailScreen -> navigator.navigateToDetail(navigation.propertyId)
             else -> {
-                Log.i("Phan2", "No navigation, just stay Home screen")
+                Log.i("TAG", "No navigation, just stay Home screen")
             }
         }
     }

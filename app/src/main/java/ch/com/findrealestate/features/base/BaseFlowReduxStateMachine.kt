@@ -72,14 +72,6 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
     val navigation: Flow<N> = navigationFlow.receiveAsFlow()
 
     override suspend fun dispatch(action: A) {
-        // todo check this needed?
-        /* if (activeFlowCounter.get() <= 0) {
-             throw IllegalStateException(
-                 "Cannot dispatch action $action because state Flow of this " +
-                         "FlowReduxStateMachine is not collected yet. " +
-                         "Start collecting the state Flow before dispatching any action."
-             )
-         }*/
         inputActions.send(action)
     }
 
@@ -90,7 +82,6 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
             .throttleDistinct(1000)
             .mapNotNull { navigationTransformer(getState(), it) }
             .onEach {
-                Log.d("Phan2", "Receive action navigate to $it")
                 navigationFlow.send(it)
             }
             .flatMapLatest { emptyFlow() }

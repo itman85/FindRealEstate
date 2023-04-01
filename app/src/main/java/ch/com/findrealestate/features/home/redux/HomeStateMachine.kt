@@ -32,7 +32,6 @@ class HomeStateMachine @Inject constructor(
         listOf(
             loadPropertiesSideEffect,
             favoriteSideEffect,
-            propertyClickSideEffect,
             navigationSideEffect
         )
 
@@ -80,7 +79,6 @@ class HomeStateMachine @Inject constructor(
     @VisibleForTesting
     val loadPropertiesSideEffect: SideEffect<HomeState, HomeAction> = { actions, _ ->
         actions.ofType(HomeAction.StartLoadData::class)
-            .onEach { Log.d("Phan", "Start Loading Properties") }
             .flatMapLatest {
                 flow {
                     try {
@@ -102,13 +100,6 @@ class HomeStateMachine @Inject constructor(
             is HomeAction.PropertyClick -> HomeNavigation.OpenDetailScreen(action.propertyId)
             else -> null
         }
-    }
-
-    @VisibleForTesting
-    val propertyClickSideEffect: SideEffect<HomeState, HomeAction> = { actions, _ ->
-        actions.ofType(HomeAction.PropertyClick::class)
-            .onEach { Log.d("PropertyClickSE", it.toString()) }
-            .flatMapLatest { emptyFlow() }
     }
 
     private suspend fun getProperties() = getPropertiesUseCase.invoke()

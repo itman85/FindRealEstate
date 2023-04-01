@@ -29,20 +29,5 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i("MainActivity","Resume")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i("MainActivity","Stop")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i("MainActivity","Destroy")
-    }
 }
 
