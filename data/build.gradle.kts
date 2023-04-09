@@ -1,8 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    id("myapp.android.library")
+    id("myapp.jetbrains.kotlin.android")
     alias(libs.plugins.gradle.ktlint)
     alias(libs.plugins.detekt)
     alias(libs.plugins.android.hilt)
@@ -10,14 +10,10 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 33
-
         buildConfigField("String", "BASE_URL", "\"https://private-9f1bb1-homegate3.apiary-mock.com/\"")
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -26,13 +22,6 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
 

@@ -1,8 +1,9 @@
 @file:Suppress("UnstableApiUsage")
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    id("myapp.android.application")
+    id("myapp.jetbrains.kotlin.android")
+    id("myapp.android.compose")
     alias(libs.plugins.gradle.ktlint)
     alias(libs.plugins.detekt)
     alias(libs.plugins.android.hilt)
@@ -11,19 +12,11 @@ plugins {
 }
 
 android {
-    compileSdk = 33
 
     defaultConfig {
         applicationId = "ch.com.findrealestate"
-        minSdk = 21
-        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
     }
 
     buildTypes {
@@ -32,25 +25,7 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
-    }
-    packagingOptions {
-        resources {
-            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
-            excludes.add("META-INF/*")
-        }
-    }
+
     detekt {
         toolVersion = "1.22.0"
         config = files("$rootDir/config/detekt/detekt.yml")
@@ -58,8 +33,8 @@ android {
 }
 
 dependencies {
-    val composeBom = platform(libs.androidx.compose.bom)
-    implementation(composeBom)
+    //val composeBom = platform(libs.androidx.compose.bom)
+    //implementation(composeBom) no need here as they already added in build logic configureAndroidCompose
     implementation(libs.bundles.composeBomList)
 
     implementation(libs.androidx.activity.compose)
