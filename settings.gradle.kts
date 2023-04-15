@@ -1,8 +1,10 @@
+@file:Suppress("UnstableApiUsage")
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
-        gradlePluginPortal()
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
@@ -13,8 +15,9 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "FindRealEstate"
-include ':app'
-include ':data'
-include ':domain'
-include ':testutils'
-include ':flow-redux'
+include(":app")
+include(":data")
+include(":domain")
+include(":testutils")
+include(":flow-redux")
+
