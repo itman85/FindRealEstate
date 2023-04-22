@@ -1,4 +1,4 @@
-package ch.com.findrealestate.features.base
+package ch.com.findrealestate.base
 
 import android.util.Log
 import androidx.annotation.VisibleForTesting
@@ -20,9 +20,10 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
 
     private lateinit var outputState: Flow<S>
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     val navigationFlow = Channel<N>()
 
-    var lastNavigationValue: N? = null
+    // var lastNavigationValue: N? = null
 
     private val activeFlowCounter = AtomicCounter(0)
 
@@ -69,7 +70,7 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
     override val state: Flow<S>
         get() = outputState
 
-    val navigation: Flow<N> = navigationFlow.receiveAsFlow()
+    open fun navigation(): Flow<N> = navigationFlow.receiveAsFlow()
 
     override suspend fun dispatch(action: A) {
         // todo check this needed?

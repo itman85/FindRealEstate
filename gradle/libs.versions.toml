@@ -85,7 +85,7 @@ kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-pl
 
 [bundles]
 # refer to androidx-compose-bom
-composeBomList = ["androidx-compose-ui", "androidx-compose-ui-tooling-preview"]
+composeBomList = ["androidx-compose-ui","androidx-compose-ui-tooling"]
 
 
 [plugins]

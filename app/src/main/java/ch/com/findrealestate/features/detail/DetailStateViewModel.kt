@@ -1,11 +1,10 @@
 package ch.com.findrealestate.features.detail
 
-import ch.com.findrealestate.features.base.BaseStateViewModel
+import ch.com.findrealestate.base.BaseStateViewModel
 import ch.com.findrealestate.features.detail.redux.DetailAction
 import ch.com.findrealestate.features.detail.redux.DetailNavigation
 import ch.com.findrealestate.features.detail.redux.DetailState
 import ch.com.findrealestate.features.detail.redux.DetailStateMachine
-import ch.com.findrealestate.features.home.HomeNavigator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject

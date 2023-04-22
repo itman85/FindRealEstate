@@ -2,8 +2,8 @@ package ch.com.findrealestate.features.detail.redux
 
 import androidx.annotation.VisibleForTesting
 import ch.com.findrealestate.domain.usecase.GetPropertyDetail
-import ch.com.findrealestate.features.base.BaseFlowReduxStateMachine
-import ch.com.findrealestate.features.base.ofType
+import ch.com.findrealestate.base.BaseFlowReduxStateMachine
+import ch.com.findrealestate.base.ofType
 import com.freeletics.flowredux.Reducer
 import com.freeletics.flowredux.SideEffect
 import kotlinx.coroutines.ExperimentalCoroutinesApi
