@@ -32,7 +32,7 @@ class HomeSimilarPropertiesSubStateMachine @Inject constructor(private val getSi
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    val loadPropertiesSideEffect: SideEffect<HomeState, HomeBaseAction> = { actions, _ ->
+    val loadSimilarPropertiesSideEffect: SideEffect<HomeState, HomeBaseAction> = { actions, _ ->
         actions.ofType(HomeAction.DataLoaded::class) // continue loading similar properties when data loaded,
             // should show loading similar properties state while waiting for similar properties data loaded
             .onEach { Log.d("Phan", "Start Loading Similar Properties") }
@@ -51,7 +51,7 @@ class HomeSimilarPropertiesSubStateMachine @Inject constructor(private val getSi
     }
 
     override val sideEffects: List<SideEffect<HomeState, HomeBaseAction>> =
-        listOf(navigationSideEffect, loadPropertiesSideEffect)
+        listOf(navigationSideEffect, loadSimilarPropertiesSideEffect)
 
     override val reducer: Reducer<HomeState, HomeBaseAction> = { state, action ->
         when (action) {
@@ -68,10 +68,10 @@ class HomeSimilarPropertiesSubStateMachine @Inject constructor(private val getSi
     private fun List<HomeItem>.insertSimilarPropertiesItem(similarProperties: List<Property>): List<HomeItem> =
         this.mapIndexed { index, item ->
             if (index == 4) // let say insert at index 4th
-                HomeItem.SimilarPropertiesItem(similarProperties)
+                listOf(HomeItem.SimilarPropertiesItem(similarProperties), item)
             else
-                item
-        }
+                listOf(item)
+        }.flatten()
 
 
 }
