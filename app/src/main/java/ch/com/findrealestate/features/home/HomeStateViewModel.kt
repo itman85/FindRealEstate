@@ -1,8 +1,7 @@
 package ch.com.findrealestate.features.home
 
 import android.util.Log
-import androidx.lifecycle.SavedStateHandle
-import ch.com.findrealestate.features.base.BaseStateViewModel
+import ch.com.findrealestate.features.base.FlowReduxViewModel
 import ch.com.findrealestate.features.home.redux.HomeAction
 import ch.com.findrealestate.features.home.redux.HomeNavigation
 import ch.com.findrealestate.features.home.redux.HomeState
@@ -13,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeStateViewModel @Inject constructor(
     stateMachine: HomeStateMachine
-) : BaseStateViewModel<HomeState, HomeAction, HomeNavigation>(stateMachine) {
+) : FlowReduxViewModel<HomeState, HomeAction, HomeNavigation>(stateMachine) {
 
     private lateinit var navigator: HomeNavigator
     fun setNavigator(navigator: HomeNavigator){

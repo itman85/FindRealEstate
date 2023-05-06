@@ -1,4 +1,4 @@
-package ch.com.findrealestate.features.base
+package com.freeletics.flowredux
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -40,7 +40,7 @@ fun <T> Flow<T>.throttleDistinct(periodMillis: Long): Flow<T> {
 @ExperimentalCoroutinesApi
 @FlowPreview
 @Composable
-fun <S : Any, A : Any, N : Any> BaseFlowReduxStateMachine<S, A, N>.rememberNavigation(): State<N?> {
+fun <S : Any, A : Any, N : Any> FlowReduxStateMachine<S, A, N>.rememberNavigation(): State<N?> {
     return produceState<N?>(initialValue = null, this) {
         navigation.collect {
             lastNavigationValue = it

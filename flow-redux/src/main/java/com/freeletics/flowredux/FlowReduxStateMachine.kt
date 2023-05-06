@@ -1,11 +1,10 @@
-package ch.com.findrealestate.features.base
+package com.freeletics.flowredux
 
-import android.util.Log
 import androidx.annotation.VisibleForTesting
 import com.freeletics.flowredux.Reducer
 import com.freeletics.flowredux.SideEffect
-import com.freeletics.flowredux.dsl.StateMachine
-import com.freeletics.flowredux.dsl.util.AtomicCounter
+import com.freeletics.flowredux.StateMachine
+import com.freeletics.flowredux.AtomicCounter
 import com.freeletics.flowredux.reduxStore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -14,7 +13,7 @@ import kotlinx.coroutines.flow.*
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachine<S, A> {
+abstract class FlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachine<S, A> {
 
     private val inputActions = Channel<A>()
 
@@ -72,6 +71,13 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
     val navigation: Flow<N> = navigationFlow.receiveAsFlow()
 
     override suspend fun dispatch(action: A) {
+        if (activeFlowCounter.get() <= 0) {
+            throw IllegalStateException(
+                "Cannot dispatch action $action because state Flow of this " +
+                        "FlowReduxStateMachine is not collected yet. " +
+                        "Start collecting the state Flow before dispatching any action."
+            )
+        }
         inputActions.send(action)
     }
 

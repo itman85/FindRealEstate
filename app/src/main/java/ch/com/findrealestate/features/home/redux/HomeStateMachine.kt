@@ -1,20 +1,17 @@
 package ch.com.findrealestate.features.home.redux
 
-import android.util.Log
 import androidx.annotation.VisibleForTesting
 import ch.com.findrealestate.domain.usecase.GetPropertiesUseCase
-import ch.com.findrealestate.features.base.BaseFlowReduxStateMachine
-import ch.com.findrealestate.features.base.ofType
 import ch.com.findrealestate.features.home.redux.sideeffects.FavoriteSideEffect
+import com.freeletics.flowredux.FlowReduxStateMachine
 import com.freeletics.flowredux.Reducer
 import com.freeletics.flowredux.SideEffect
+import com.freeletics.flowredux.ofType
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
@@ -22,7 +19,7 @@ import javax.inject.Inject
 class HomeStateMachine @Inject constructor(
     private val getPropertiesUseCase: GetPropertiesUseCase,
     private val favoriteSideEffect: FavoriteSideEffect
-) : BaseFlowReduxStateMachine<HomeState, HomeAction, HomeNavigation>() {
+) : FlowReduxStateMachine<HomeState, HomeAction, HomeNavigation>() {
 
     override val initialState: HomeState = HomeState.Init
 

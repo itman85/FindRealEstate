@@ -1,4 +1,4 @@
-package com.freeletics.flowredux.dsl.util
+package com.freeletics.flowredux
 
 import java.util.concurrent.atomic.AtomicInteger
 
