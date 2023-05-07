@@ -33,7 +33,6 @@ import ch.com.findrealestate.ui.theme.FindRealEstateTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navigator: HomeNavigator) {
-    Log.d("Phan", "home screen recompose")
     val viewModel: HomeStateViewModel =
         hiltViewModel<HomeStateViewModel>().apply { this.setNavigator(navigator) }
 
@@ -105,7 +104,7 @@ fun PropertiesList(
                 }
             }
             else -> {
-                Log.i("TAG", "Not update ui for this state $homeState")
+                Log.i("Home", "Not update ui for this state $homeState")
             }
         }
         item {

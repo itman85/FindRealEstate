@@ -27,7 +27,7 @@ class HomeStateViewModel @Inject constructor(
         when(navigation){
             is HomeNavigation.OpenDetailScreen -> navigator.navigateToDetail(navigation.propertyId)
             else -> {
-                Log.i("TAG", "No navigation, just stay Home screen")
+                Log.i("HomeVM", "No navigation, just stay Home screen")
             }
         }
     }

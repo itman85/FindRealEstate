@@ -1,11 +1,6 @@
 package com.freeletics.flowredux
 
 import androidx.annotation.VisibleForTesting
-import com.freeletics.flowredux.Reducer
-import com.freeletics.flowredux.SideEffect
-import com.freeletics.flowredux.StateMachine
-import com.freeletics.flowredux.AtomicCounter
-import com.freeletics.flowredux.reduxStore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel

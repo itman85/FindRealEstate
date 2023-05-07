@@ -1,5 +1,6 @@
 package ch.com.findrealestate.features.detail
 
+import android.util.Log
 import ch.com.findrealestate.features.base.FlowReduxViewModel
 import ch.com.findrealestate.features.detail.redux.DetailAction
 import ch.com.findrealestate.features.detail.redux.DetailNavigation
@@ -25,7 +26,9 @@ class DetailStateViewModel @Inject constructor(stateMachine: DetailStateMachine)
         }
         when(navigation){
             is DetailNavigation.OpenPropertyWebsite -> navigator.navigateOpenChromeTab(navigation.url)
-            else -> {}
+            else -> {
+                Log.i("DetailVM", "No navigation, just stay Detail screen")
+            }
         }
     }
 }
