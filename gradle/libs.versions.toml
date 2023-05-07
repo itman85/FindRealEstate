@@ -1,7 +1,7 @@
 [versions]
 # platform
 androidGradlePlugin = "7.4.2"
-kotlin = "1.8.10"
+kotlin = "1.8.21"
 ktlint = "11.3.1"
 detekt = "1.22.0"
 
@@ -22,7 +22,7 @@ hilt = "2.45"
 retrofit2 = "2.9.0"
 okhttp3Logging= "5.0.0-alpha.11"
 roomDb = "2.5.1"
-coroutinesCoreKtx = "1.6.4"
+coroutinesCoreKtx = "1.7.0"
 # testing
 androidxTestExt = "1.1.5"
 #androidxTestRules = "1.4.0"
