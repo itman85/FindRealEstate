@@ -1,7 +1,7 @@
 [versions]
 # platform
-androidGradlePlugin = "7.4.2"
-kotlin = "1.8.10"
+androidGradlePlugin = "7.4.2" # https://developer.android.com/build/releases/gradle-plugin
+kotlin = "1.8.21"
 ktlint = "11.3.1"
 detekt = "1.22.0"
 
@@ -9,7 +9,7 @@ detekt = "1.22.0"
 androidxActivity = "1.7.0"
 # Compose Bom mapping https://developer.android.com/jetpack/compose/bom/bom-mapping
 androidxComposeBom = "2023.03.00"
-androidxComposeCompiler = "1.4.4"
+androidxComposeCompiler = "1.4.7" # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 androidxCoreKtx = "1.9.0"
 androidxLifecycleRuntime = "2.6.1"
 androidxBrowser = "1.5.0"
@@ -22,7 +22,7 @@ hilt = "2.45"
 retrofit2 = "2.9.0"
 okhttp3Logging= "5.0.0-alpha.11"
 roomDb = "2.5.1"
-coroutinesCoreKtx = "1.6.4"
+coroutinesCoreKtx = "1.7.0"
 # testing
 androidxTestExt = "1.1.5"
 #androidxTestRules = "1.4.0"
@@ -92,9 +92,9 @@ composeBomList = ["androidx-compose-ui", "androidx-compose-ui-tooling-preview"]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 
