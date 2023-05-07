@@ -7,9 +7,10 @@ import ch.com.findrealestate.features.detail.redux.DetailState
 import ch.com.findrealestate.features.detail.redux.DetailStateMachine
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 @HiltViewModel
 class DetailStateViewModel @Inject constructor(stateMachine: DetailStateMachine) :
     FlowReduxViewModel<DetailState, DetailAction, DetailNavigation>(stateMachine) {

@@ -8,7 +8,8 @@ internal fun Project.configureAndroidLibrary(
 ) {
     extension.apply {
         defaultConfig {
-            targetSdk = 33
+            // set targetSdk is deprecated (seem no need to set target sdk for library)
+           // targetSdk = 33
         }
     }
 }

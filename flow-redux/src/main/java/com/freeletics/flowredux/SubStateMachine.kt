@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.annotation.VisibleForTesting
 import com.freeletics.flowredux.Reducer
 import com.freeletics.flowredux.SideEffect
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 
@@ -18,6 +19,7 @@ abstract class SubStateMachine<S : Any, A : Any, N : Any> {
 
     fun navigation(): Flow<N> = navigationFlow.receiveAsFlow()
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     protected inline fun <reified A : Any> createNavigationSideEffect(
         noinline navigationTransformer: (S, A) -> N?
     ): SideEffect<S, A> = { actions, getState ->

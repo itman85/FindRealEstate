@@ -7,11 +7,13 @@ plugins {
     alias(libs.plugins.gradle.ktlint)
     alias(libs.plugins.detekt)
     alias(libs.plugins.android.hilt)
-    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
+
+    namespace = "ch.com.findrealestate"
 
     defaultConfig {
         applicationId = "ch.com.findrealestate"
@@ -30,6 +32,7 @@ android {
         toolVersion = "1.22.0"
         config = files("$rootDir/config/detekt/detekt.yml")
     }
+
 }
 
 dependencies {

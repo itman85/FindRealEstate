@@ -6,6 +6,8 @@ plugins {
 }
 
 android {
+    namespace = "ch.com.findrealestate.testutils"
+
     defaultConfig {
         consumerProguardFiles("consumer-rules.pro")
     }

@@ -11,6 +11,7 @@ plugins {
 
 android {
 
+    namespace = "ch.com.findrealestate.data"
 
     defaultConfig {
         buildConfigField("String", "BASE_URL", "\"https://private-9f1bb1-homegate3.apiary-mock.com/\"")
