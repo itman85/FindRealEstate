@@ -2,16 +2,12 @@ package ch.com.findrealestate.features.home.redux
 
 import android.util.Log
 import androidx.annotation.VisibleForTesting
-import ch.com.findrealestate.base.CompositeStateMachine
-import ch.com.findrealestate.base.SubStateMachine
-import ch.com.findrealestate.base.ofType
 import ch.com.findrealestate.domain.entity.Property
 import ch.com.findrealestate.domain.usecase.GetPropertiesUseCase
 import ch.com.findrealestate.features.home.HomeItem
 import ch.com.findrealestate.features.home.components.similarproperties.redux.HomeSimilarPropertiesSubStateMachine
 import ch.com.findrealestate.features.home.redux.sideeffects.FavoriteSideEffect
-import com.freeletics.flowredux.Reducer
-import com.freeletics.flowredux.SideEffect
+import com.freeletics.flowredux.*
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

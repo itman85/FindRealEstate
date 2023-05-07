@@ -1,8 +1,6 @@
-package ch.com.findrealestate.base
+package com.freeletics.flowredux
 
 import android.util.Log
-import com.freeletics.flowredux.Reducer
-import com.freeletics.flowredux.SideEffect
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +11,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 @FlowPreview
 @ExperimentalCoroutinesApi
 abstract class CompositeStateMachine<S : Any, A : Any, N : Any> :
-    BaseFlowReduxStateMachine<S, A, N>() {
+    FlowReduxStateMachine<S, A, N>() {
 
     abstract val subStateMachines: List<SubStateMachine<S, A, N>>
 

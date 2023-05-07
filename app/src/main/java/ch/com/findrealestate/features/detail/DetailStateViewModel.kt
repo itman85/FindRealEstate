@@ -1,6 +1,6 @@
 package ch.com.findrealestate.features.detail
 
-import ch.com.findrealestate.base.BaseStateViewModel
+import ch.com.findrealestate.base.FlowReduxViewModel
 import ch.com.findrealestate.features.detail.redux.DetailAction
 import ch.com.findrealestate.features.detail.redux.DetailNavigation
 import ch.com.findrealestate.features.detail.redux.DetailState
@@ -12,7 +12,7 @@ import javax.inject.Inject
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class DetailStateViewModel @Inject constructor(stateMachine: DetailStateMachine) :
-    BaseStateViewModel<DetailState, DetailAction, DetailNavigation>(stateMachine) {
+    FlowReduxViewModel<DetailState, DetailAction, DetailNavigation>(stateMachine) {
 
     private lateinit var navigator: DetailNavigator
     fun setNavigator(navigator: DetailNavigator){

@@ -2,7 +2,7 @@ package com.freeletics.flowredux.compose
 
 import androidx.compose.runtime.*
 import com.freeletics.flowredux.dsl.FlowReduxStateMachine
-import com.freeletics.flowredux.dsl.StateMachine
+import com.freeletics.flowredux.StateMachine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.launch

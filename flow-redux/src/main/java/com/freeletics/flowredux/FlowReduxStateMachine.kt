@@ -1,12 +1,7 @@
-package ch.com.findrealestate.base
+package com.freeletics.flowredux
 
 import android.util.Log
 import androidx.annotation.VisibleForTesting
-import com.freeletics.flowredux.Reducer
-import com.freeletics.flowredux.SideEffect
-import com.freeletics.flowredux.dsl.StateMachine
-import com.freeletics.flowredux.dsl.util.AtomicCounter
-import com.freeletics.flowredux.reduxStore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -14,7 +9,7 @@ import kotlinx.coroutines.flow.*
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachine<S, A> {
+abstract class FlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachine<S, A> {
 
     private val inputActions = Channel<A>()
 

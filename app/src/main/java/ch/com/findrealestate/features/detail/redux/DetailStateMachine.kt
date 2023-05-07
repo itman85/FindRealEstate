@@ -2,10 +2,10 @@ package ch.com.findrealestate.features.detail.redux
 
 import androidx.annotation.VisibleForTesting
 import ch.com.findrealestate.domain.usecase.GetPropertyDetail
-import ch.com.findrealestate.base.BaseFlowReduxStateMachine
-import ch.com.findrealestate.base.ofType
+import com.freeletics.flowredux.FlowReduxStateMachine
 import com.freeletics.flowredux.Reducer
 import com.freeletics.flowredux.SideEffect
+import com.freeletics.flowredux.ofType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.emptyFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 class DetailStateMachine @Inject constructor(private val getPropertyDetail: GetPropertyDetail) :
-    BaseFlowReduxStateMachine<DetailState, DetailAction, DetailNavigation>() {
+    FlowReduxStateMachine<DetailState, DetailAction, DetailNavigation>() {
 
 
     @FlowPreview

@@ -1,7 +1,7 @@
 package ch.com.findrealestate.features.home
 
 import android.util.Log
-import ch.com.findrealestate.base.BaseStateViewModel
+import ch.com.findrealestate.base.FlowReduxViewModel
 import ch.com.findrealestate.features.home.components.similarproperties.redux.HomeSimilarPropertiesNavigation
 import ch.com.findrealestate.features.home.redux.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,7 +10,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeStateViewModel @Inject constructor(
     stateMachine: HomeStateMachine
-) : BaseStateViewModel<HomeState, HomeBaseAction, HomeBaseNavigation>(stateMachine) {
+) : FlowReduxViewModel<HomeState, HomeBaseAction, HomeBaseNavigation>(stateMachine) {
     fun startLoadData() {
         // use this way or set initAction for state machine
         if (stateflow.value == HomeState.Init)

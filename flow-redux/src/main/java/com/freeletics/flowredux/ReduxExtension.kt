@@ -1,4 +1,4 @@
-package ch.com.findrealestate.base
+package com.freeletics.flowredux
 
 import android.util.Log
 import androidx.compose.runtime.*
