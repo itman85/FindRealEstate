@@ -20,7 +20,7 @@ class DetailStateMachine @Inject constructor(private val getPropertyDetail: GetP
 
 
     @FlowPreview
-    override val initialState: DetailState = DetailState()
+    override val initialState: DetailState = DetailState.Init
 
     override fun sideEffects(): List<SideEffect<DetailState, DetailAction>> =
         listOf(loadPropertyDetailSideEffect, navigationSideEffect, screenResumeSideEffect)
