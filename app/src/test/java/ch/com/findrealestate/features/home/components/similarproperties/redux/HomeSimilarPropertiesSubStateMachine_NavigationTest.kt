@@ -50,7 +50,6 @@ internal class HomeSimilarPropertiesSubStateMachine_NavigationTest {
                 awaitItem().shouldBeTypeOf<HomeSimilarPropertiesNavigation.OpenSimilarPropertyDetail> {
                     it.propertyId.shouldBe("123")
                 }
-                //cancelAndConsumeRemainingEvents()
                 cancelAndIgnoreRemainingEvents()
             }
         }

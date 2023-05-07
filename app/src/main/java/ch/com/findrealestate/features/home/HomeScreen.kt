@@ -35,30 +35,11 @@ import ch.com.findrealestate.ui.theme.FindRealEstateTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navigator: HomeNavigator) {
-    Log.d("Phan", "home screen recompose")
     val viewModel: HomeStateViewModel =
-        hiltViewModel<HomeStateViewModel>().apply { this.setNavigator(navigator) } // todo: any way to pass navigator as parameter of HomeStateViewModel or inject into view model?
-
-    // use this way or set initAction for state machine
-    //viewModel.startLoadData()
-    //val homeState by viewModel.rememberState()
+        hiltViewModel<HomeStateViewModel>().apply { this.setNavigator(navigator) }
 
     val homeStateValue =
-        viewModel.rememberState().value // use homeState value instead of this way: homeState by viewModel.rememberState(). this will help to avoid recompose in composable which is linked to this remember state
-    Log.d("Phan", "home state change $homeStateValue")
-
-    // val homeNavigationValue = viewModel.rememberNavigation().value
-    // Log.d("Phan", "navigation change $homeNavigationValue")
-    /* LaunchedEffect(homeNavigationValue) {
-         // should put all computation stuffs into LaunchedEffect, to avoid re-computing everytime enter recomposition
-         when (homeNavigationValue) {
-             is HomeNavigation.OpenDetailScreen -> navigator.navigateToDetail(homeNavigationValue.propertyId)
-             else -> {
-                 Log.i("Phan", "No navigation, just stay Home screen")
-             }
-         }
-     }
-     */
+        viewModel.rememberState().value
 
     Scaffold(topBar = {
         TopAppBar(title = { Text("Real Estate") })
@@ -83,7 +64,7 @@ fun HomeScreen(navigator: HomeNavigator) {
     }
     DisposableEffect(Unit) {
         onDispose {
-            Log.d("Phan", "home composable disposed")
+            Log.d("Home", "home composable disposed")
         }
     }
 }
@@ -99,7 +80,6 @@ fun PropertiesList(
     confirmRemoveFavoriteDialogYes: (String) -> Unit,
     confirmRemoveFavoriteDialogNo: () -> Unit
 ) {
-    // should not mix expensive computation into UI stuffs, UI stuffs get recomposed un-controlled, depend on system.
     val scrollableState = rememberLazyListState()
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -109,9 +89,6 @@ fun PropertiesList(
         item {
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
         }
-        Log.d("Phan", "Recompose list $homeState")
-        // homeState here should be value, not a remember state, so it will avoid recompose this composable content of LazyColumn
-        // NOTE: should not link composable to remember state
         when (homeState) {
             is HomeState.Loading -> {
                 item {
@@ -148,7 +125,7 @@ fun PropertiesList(
                 }
             }
             else -> {
-                Log.i("Phan", "Not update ui for this state $homeState")
+                Log.i("Home", "Not update ui for this state $homeState")
             }
         }
         item {

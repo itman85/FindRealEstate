@@ -18,8 +18,6 @@ abstract class FlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachine<S
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     val navigationFlow = Channel<N>()
 
-    // var lastNavigationValue: N? = null
-
     private val activeFlowCounter = AtomicCounter(0)
 
     abstract val initialState: S
@@ -86,7 +84,7 @@ abstract class FlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachine<S
             .throttleDistinct(1000)
             .mapNotNull { navigationTransformer(getState(), it) }
             .onEach {
-                Log.d("Phan2", "Receive action navigate to $it")
+                Log.d("FlowRedux", "Receive action navigate to $it")
                 navigationFlow.send(it)
             }
             .flatMapLatest { emptyFlow() }

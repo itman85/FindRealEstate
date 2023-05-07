@@ -24,13 +24,13 @@ abstract class FlowReduxViewModel<S : Any, A : Any, N : Any> constructor(
         viewModelScope.launch {
             launch {
                 stateMachine.state.collect {
-                    Log.d("Phan1", "State collect $it")
+                    Log.d("FlowReduxVM", "State collect $it")
                     stateflow.value = it
                 }
             }
             launch {
                 stateMachine.navigation().collect {
-                    Log.d("Phan2", "Navigation collect $it")
+                    Log.d("FlowReduxVM", "Navigation collect $it")
                     navigationValue = it
                     handleNavigation(it)
                 }
@@ -41,11 +41,7 @@ abstract class FlowReduxViewModel<S : Any, A : Any, N : Any> constructor(
     abstract fun handleNavigation(navigation: N)
 
     @Composable
-    fun rememberState() =
-        stateflow.collectAsState() // in this way stateflow still in memory, then it will preserve previous state
-
-    //@Composable
-    //fun rememberNavigation() = navigationFlow.collectAsState()
+    fun rememberState() = stateflow.collectAsState()
 
     fun dispatch(action: A) = viewModelScope.launch {
         stateMachine.dispatch(action = action)

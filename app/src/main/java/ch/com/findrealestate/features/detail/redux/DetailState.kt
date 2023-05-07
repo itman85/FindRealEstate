@@ -9,6 +9,9 @@ data class DetailState(
     val errorMsg: String? = null,
     val isShowInfoBottomSheet: Boolean = false
 ){
+    companion object{
+        val Init = DetailState()
+    }
     fun isLoadingState() = isLoading
     fun isDataLoaded() = detailProperty!=null
     fun isErrorState() = !errorMsg.isNullOrEmpty()

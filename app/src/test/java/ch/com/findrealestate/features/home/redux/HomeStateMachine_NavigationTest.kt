@@ -53,7 +53,6 @@ class HomeStateMachine_NavigationTest {
                 awaitItem().shouldBeTypeOf<HomeNavigation.OpenDetailScreen> {
                     it.propertyId.shouldBe("123")
                 }
-                //cancelAndConsumeRemainingEvents()
                 cancelAndIgnoreRemainingEvents()
             }
         }

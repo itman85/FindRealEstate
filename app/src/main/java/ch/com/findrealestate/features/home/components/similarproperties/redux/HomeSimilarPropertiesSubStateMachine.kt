@@ -14,6 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -35,7 +36,7 @@ class HomeSimilarPropertiesSubStateMachine @Inject constructor(private val getSi
     val loadSimilarPropertiesSideEffect: SideEffect<HomeState, HomeBaseAction> = { actions, _ ->
         actions.ofType(HomeAction.DataLoaded::class) // continue loading similar properties when data loaded,
             // should show loading similar properties state while waiting for similar properties data loaded
-            .onEach { Log.d("Phan", "Start Loading Similar Properties") }
+            .onEach { Log.d("HomeSimilarSubSM", "Start Loading Similar Properties") }
             .flatMapLatest {
                 flow {
                     try {
@@ -61,13 +62,13 @@ class HomeSimilarPropertiesSubStateMachine @Inject constructor(private val getSi
                     state.items.insertSimilarPropertiesItem(action.properties)
                 )
             }
-            else -> state// in error case, it will stay previous home items list
+            else -> state
         }
     }
 
     private fun List<HomeItem>.insertSimilarPropertiesItem(similarProperties: List<Property>): List<HomeItem> =
         this.mapIndexed { index, item ->
-            if (index == 4) // let say insert at index 4th
+            if (index == 4) // insert at index 4th
                 listOf(HomeItem.SimilarPropertiesItem(similarProperties), item)
             else
                 listOf(item)

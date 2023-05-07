@@ -42,7 +42,6 @@ abstract class CompositeStateMachine<S : Any, A : Any, N : Any> :
     protected fun createSubStateMachineReducers(vararg additionalReducers: Reducer<S, A>): Reducer<S, A> =
         CompositeReducer(
             reducers = subStateMachines.map {
-                // See below CompositeReducer where we try / catch the action type casting error
                 @Suppress("UNCHECKED_CAST")
                 it.reducer
             } + additionalReducers
@@ -58,8 +57,7 @@ abstract class CompositeStateMachine<S : Any, A : Any, N : Any> :
                 try {
                     newState = it.invoke(newState, newAction)
                 } catch (ignored: ClassCastException) {
-                    // the exception will be thrown if a reducer is not registered with the input action
-                    // this can be ignored as if the reducer is not interested in the action, basically we skip that reducer and it's normal behavior
+                    ignored.printStackTrace()
                 }
             }
             return newState

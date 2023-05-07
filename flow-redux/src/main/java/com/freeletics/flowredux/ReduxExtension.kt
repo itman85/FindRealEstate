@@ -34,18 +34,4 @@ fun <T> Flow<T>.throttleDistinct(periodMillis: Long): Flow<T> {
     }
 }
 
-/*
-@ExperimentalCoroutinesApi
-@FlowPreview
-@Composable
-fun <S : Any, A : Any, N : Any> BaseFlowReduxStateMachine<S, A, N>.rememberNavigation(): State<N?> {
-    return produceState<N?>(initialValue = null, this) {
-        navigation().collect {
-            Log.d("Phan2", "navigation collect $it")
-            lastNavigationValue = it
-            value = it
-        }
-    }
-}
- */
 

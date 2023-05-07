@@ -1,5 +1,5 @@
 # FindRealEstate
-This project is built using Clean Architecture with Redux integration.
+This project is built using Clean Architecture with Flow Redux integration.
 The project has four modules: app, data, domain and testutils.
 # Tech Stacks
 This project uses many of the popular libraries, plugins and tools of the android ecosystem.
@@ -22,3 +22,6 @@ This project uses many of the popular libraries, plugins and tools of the androi
 - [Detekt](https://github.com/detekt/detekt) - Static code analysis for Kotlin.
 - [Detek for Compose](https://detekt.dev/docs/introduction/compose/) - Detekt configuration for Compose
 - [Conventional Commit](https://plugins.jetbrains.com/plugin/13389-conventional-commit) - To provide completion for conventional commits
+
+# Flow Redux
+This version demos how to implement flow redux with composite state machine

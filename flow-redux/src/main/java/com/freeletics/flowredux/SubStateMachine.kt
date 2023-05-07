@@ -25,7 +25,7 @@ abstract class SubStateMachine<S : Any, A : Any, N : Any> {
             .throttleDistinct(1000)
             .mapNotNull { navigationTransformer(getState(), it) }
             .onEach {
-                Log.d("Phan2", "Receive action navigate to $it")
+                Log.d("SubStateMachine", "Receive action navigate to $it")
                 navigationFlow.send(it)
             }
             .flatMapLatest { emptyFlow() }
