@@ -1,24 +1,24 @@
 [versions]
 # platform
-androidGradlePlugin = "7.4.2" # https://developer.android.com/build/releases/gradle-plugin
+androidGradlePlugin = "8.0.1" # https://developer.android.com/build/releases/gradle-plugin
 kotlin = "1.8.21"
-ktlint = "11.3.1"
+ktlint = "11.3.2"
 detekt = "1.22.0"
 
 # androidX & conpose
-androidxActivity = "1.7.0"
+androidxActivity = "1.7.1"
 # Compose Bom mapping https://developer.android.com/jetpack/compose/bom/bom-mapping
-androidxComposeBom = "2023.03.00"
+androidxComposeBom = "2023.05.00"
 androidxComposeCompiler = "1.4.7" # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-androidxCoreKtx = "1.9.0"
+androidxCoreKtx = "1.10.0"
 androidxLifecycleRuntime = "2.6.1"
 androidxBrowser = "1.5.0"
-androidxComposeMaterial3 = "1.1.0-beta01"
+androidxComposeMaterial3 = "1.1.0-rc01"
 androidxNavigationCompose = "2.5.3"
 androidxHiltNavigationCompose = "1.0.0"
 # others
 coilCompose = "2.3.0"
-hilt = "2.45"
+hilt = "2.46"
 retrofit2 = "2.9.0"
 okhttp3Logging= "5.0.0-alpha.11"
 roomDb = "2.5.1"
@@ -31,8 +31,8 @@ androidxEspresso = "3.5.1"
 junit4 = "4.13.2"
 turbine = "0.12.3"
 kotlinTestJunit5 = "3.4.2"
-mockk = "1.13.4"
-robolectric = "4.9.2"
+mockk = "1.13.5"
+robolectric = "4.10.2"
 
 [libraries]
 # androidx compose bom
