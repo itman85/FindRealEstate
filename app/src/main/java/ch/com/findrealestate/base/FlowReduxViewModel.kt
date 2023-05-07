@@ -1,23 +1,23 @@
-package ch.com.findrealestate.features.base
+package ch.com.findrealestate.base
 
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.freeletics.flowredux.FlowReduxStateMachine
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-abstract class BaseStateViewModel<S : Any, A : Any, N : Any> constructor(
-    private val stateMachine: BaseFlowReduxStateMachine<S, A, N>
+abstract class FlowReduxViewModel<S : Any, A : Any, N : Any> constructor(
+    private val stateMachine: FlowReduxStateMachine<S, A, N>
 ) : ViewModel() {
     protected val stateflow = MutableStateFlow(stateMachine.initialState)
 
-    //protected val navigationFlow = MutableStateFlow<N?>(null)
-    var navigationValue: N? = null
+    var navigationValue: N? = null // current navigation value
 
     init {
         stateMachine.initStore()
@@ -29,7 +29,7 @@ abstract class BaseStateViewModel<S : Any, A : Any, N : Any> constructor(
                 }
             }
             launch {
-                stateMachine.navigation.collect {
+                stateMachine.navigation().collect {
                     Log.d("Phan2", "Navigation collect $it")
                     navigationValue = it
                     handleNavigation(it)

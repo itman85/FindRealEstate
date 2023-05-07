@@ -1,12 +1,7 @@
-package ch.com.findrealestate.features.base
+package com.freeletics.flowredux
 
 import android.util.Log
 import androidx.annotation.VisibleForTesting
-import com.freeletics.flowredux.Reducer
-import com.freeletics.flowredux.SideEffect
-import com.freeletics.flowredux.dsl.StateMachine
-import com.freeletics.flowredux.dsl.util.AtomicCounter
-import com.freeletics.flowredux.reduxStore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -14,15 +9,16 @@ import kotlinx.coroutines.flow.*
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachine<S, A> {
+abstract class FlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachine<S, A> {
 
     private val inputActions = Channel<A>()
 
     private lateinit var outputState: Flow<S>
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
     val navigationFlow = Channel<N>()
 
-    var lastNavigationValue: N? = null
+    // var lastNavigationValue: N? = null
 
     private val activeFlowCounter = AtomicCounter(0)
 
@@ -69,17 +65,17 @@ abstract class BaseFlowReduxStateMachine<S : Any, A : Any, N : Any> : StateMachi
     override val state: Flow<S>
         get() = outputState
 
-    val navigation: Flow<N> = navigationFlow.receiveAsFlow()
+    open fun navigation(): Flow<N> = navigationFlow.receiveAsFlow()
 
     override suspend fun dispatch(action: A) {
         // todo check this needed?
-        /* if (activeFlowCounter.get() <= 0) {
+         if (activeFlowCounter.get() <= 0) {
              throw IllegalStateException(
                  "Cannot dispatch action $action because state Flow of this " +
                          "FlowReduxStateMachine is not collected yet. " +
                          "Start collecting the state Flow before dispatching any action."
              )
-         }*/
+         }
         inputActions.send(action)
     }
 

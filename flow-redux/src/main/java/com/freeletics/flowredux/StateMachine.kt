@@ -1,4 +1,4 @@
-package com.freeletics.flowredux.dsl
+package com.freeletics.flowredux
 
 import kotlinx.coroutines.flow.Flow
 

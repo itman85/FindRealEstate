@@ -23,7 +23,7 @@ fun SmgImage(urlToImage: String, modifier: Modifier) {
         loading = { CircularProgressIndicator() },
         error = { Text("error loading image") },
         contentDescription = "url image",
-        contentScale = ContentScale.Fit,
+        contentScale = ContentScale.FillBounds,
         modifier = modifier
     )
 }

@@ -26,6 +26,8 @@ import ch.com.findrealestate.components.PriceView
 import ch.com.findrealestate.components.SmgErrorView
 import ch.com.findrealestate.components.SmgImage
 import ch.com.findrealestate.domain.entity.Property
+import ch.com.findrealestate.features.home.components.similarproperties.HomeSimilarPropertiesComponent
+import ch.com.findrealestate.features.home.components.similarproperties.redux.HomeSimilarPropertiesAction
 import ch.com.findrealestate.features.home.redux.HomeAction
 import ch.com.findrealestate.features.home.redux.HomeState
 import ch.com.findrealestate.ui.theme.FindRealEstateTheme
@@ -66,6 +68,13 @@ fun HomeScreen(navigator: HomeNavigator) {
             paddingValues,
             favoriteClick = { id -> viewModel.dispatch(HomeAction.FavoriteClick(id)) },
             propertyClick = { id -> viewModel.dispatch(HomeAction.PropertyClick(id)) },
+            similarPropertyClick = { id ->
+                viewModel.dispatch(
+                    HomeSimilarPropertiesAction.SimilarPropertyClick(
+                        id
+                    )
+                )
+            },
             favoriteDialogYesClick = { viewModel.dispatch(HomeAction.FavoriteDialogYesClick) },
             confirmRemoveFavoriteDialogYes = { id ->
                 viewModel.dispatch(HomeAction.ConfirmRemoveFavoriteYesClick(id))
@@ -85,6 +94,7 @@ fun PropertiesList(
     paddingValues: PaddingValues,
     favoriteClick: (String) -> Unit,
     propertyClick: (String) -> Unit,
+    similarPropertyClick: (String) -> Unit,
     favoriteDialogYesClick: () -> Unit,
     confirmRemoveFavoriteDialogYes: (String) -> Unit,
     confirmRemoveFavoriteDialogNo: () -> Unit
@@ -117,16 +127,22 @@ fun PropertiesList(
             is HomeState.AddFavoriteSuccessful,
             is HomeState.ConfirmFavoriteRemoved,
             is HomeState.PropertiesListUpdated -> {
-                val propertiesList = homeState.properties
+                val homeItemsList = homeState.items
                 items(
-                    count = propertiesList.size,
-                    key = { index -> propertiesList[index].id }) { index ->
-                    propertiesList[index].let { property ->
-                        PropertyItem(
-                            property,
-                            toggleFavorite = favoriteClick,
-                            propertyClick = propertyClick
-                        )
+                    count = homeItemsList.size,
+                    key = { index -> homeItemsList[index].itemId }) { index ->
+                    homeItemsList[index].let { homeItem ->
+                        when (homeItem) {
+                            is HomeItem.PropertyItem -> PropertyItem(
+                                homeItem.property,
+                                toggleFavorite = favoriteClick,
+                                propertyClick = propertyClick
+                            )
+                            is HomeItem.SimilarPropertiesItem -> HomeSimilarPropertiesComponent(
+                                properties = homeItem.properties,
+                                onItemClick = { similarPropertyClick(it.id) }
+                            )
+                        }
                         Divider()
                     }
                 }
@@ -290,7 +306,7 @@ fun PropertyItemPreview() {
         imageUrl = "https://media2.homegate.ch/listings/heia/104123262/image/8944c80cb8afb8d5d579ca4faf7dbbb4.jpg",
         title = "This is a title",
         price = 1900L,
-        address = "Ha noi, Viet nam",
+        address = "Bern",
         isFavorite = true
     )
     FindRealEstateTheme {

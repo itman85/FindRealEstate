@@ -26,7 +26,7 @@ class HomeStateMachine_SideEffectTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        stateMachine = HomeStateMachine(getPropertiesUseCase, mockk())
+        stateMachine = HomeStateMachine(getPropertiesUseCase, mockk(), mockk())
         // this solve error:  android.util.log not mocked
         mockkStatic(Log::class)
         every { Log.d(any(), any()) } returns 0
@@ -43,7 +43,7 @@ class HomeStateMachine_SideEffectTest {
             flow { emit(HomeAction.StartLoadData) },
             getState(HomeState.Init)
         ).test {
-            awaitItem().shouldBeTypeOf<HomeAction.DataLoaded>{
+            awaitItem().shouldBeTypeOf<HomeAction.DataLoaded> {
                 it.properties.size.shouldBeExactly(3)
                 it.properties[0].id.shouldBe("123")
                 it.properties[1].id.shouldBe("12345")
@@ -60,7 +60,7 @@ class HomeStateMachine_SideEffectTest {
             flow { emit(HomeAction.StartLoadData) },
             getState(HomeState.Init)
         ).test {
-            awaitItem().shouldBeTypeOf<HomeAction.DataLoadedError>{
+            awaitItem().shouldBeTypeOf<HomeAction.DataLoadedError> {
                 it.error.shouldBe("Network timeout")
             }
             awaitComplete()

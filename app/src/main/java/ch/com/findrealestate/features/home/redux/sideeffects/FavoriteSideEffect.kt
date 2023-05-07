@@ -2,6 +2,7 @@ package ch.com.findrealestate.features.home.redux.sideeffects
 
 import ch.com.findrealestate.domain.usecase.FavoriteUseCase
 import ch.com.findrealestate.features.home.redux.HomeAction
+import ch.com.findrealestate.features.home.redux.HomeBaseAction
 import ch.com.findrealestate.features.home.redux.HomeState
 import com.freeletics.flowredux.GetState
 import com.freeletics.flowredux.SideEffect
@@ -11,9 +12,9 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FavoriteSideEffect @Inject constructor(private val favoriteUseCase: FavoriteUseCase) :
-    SideEffect<HomeState, HomeAction> {
+    SideEffect<HomeState, HomeBaseAction> {
     override fun invoke(
-        actions: Flow<HomeAction>,
+        actions: Flow<HomeBaseAction>,
         getState: GetState<HomeState>
     ): Flow<HomeAction> {
         return actions.filter { it is HomeAction.FavoriteClick || it is HomeAction.ConfirmRemoveFavoriteYesClick }

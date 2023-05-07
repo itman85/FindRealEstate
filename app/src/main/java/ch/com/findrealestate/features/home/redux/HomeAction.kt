@@ -2,7 +2,8 @@ package ch.com.findrealestate.features.home.redux
 
 import ch.com.findrealestate.domain.entity.Property
 
-sealed interface HomeAction {
+interface HomeBaseAction
+sealed interface HomeAction : HomeBaseAction {
     object StartLoadData : HomeAction
     data class FavoriteClick(val propertyId: String) : HomeAction
     data class FavoriteUpdated(val propertyId: String, val isFavorite: Boolean) : HomeAction

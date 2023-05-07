@@ -1,5 +1,6 @@
 package ch.com.findrealestate.features.home.redux
 
-sealed class HomeNavigation {
-    data class OpenDetailScreen(val propertyId:String): HomeNavigation()
+interface HomeBaseNavigation
+sealed interface HomeNavigation:HomeBaseNavigation {
+    data class OpenDetailScreen(val propertyId:String): HomeNavigation
 }

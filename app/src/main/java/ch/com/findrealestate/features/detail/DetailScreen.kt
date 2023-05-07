@@ -29,12 +29,8 @@ fun DetailScreen(propertyId: String?, navigator: DetailNavigator) {
         hiltViewModel<DetailStateViewModel>().apply { this.setNavigator(navigator) }
     val detailState by viewModel.rememberState()
 
-    //  val coroutineScope = rememberCoroutineScope()
-    //   val modalSheetState = rememberModalBottomSheetState()
-
-
     LaunchedEffect(Unit) {
-        propertyId?.let { viewModel.dispatch(DetailAction.LoadDetailData(it)) }
+        propertyId?.let { viewModel.startLoadData(it) }
     }
 
     Scaffold(

@@ -1,10 +1,11 @@
 package com.freeletics.flowredux.dsl
 
+import com.freeletics.flowredux.StateMachine
 import com.freeletics.flowredux.dsl.internal.Action
 import com.freeletics.flowredux.dsl.internal.ExternalWrappedAction
 import com.freeletics.flowredux.dsl.internal.InitialStateAction
 import com.freeletics.flowredux.dsl.internal.reducer
-import com.freeletics.flowredux.dsl.util.AtomicCounter
+import com.freeletics.flowredux.AtomicCounter
 import com.freeletics.flowredux.reduxStore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

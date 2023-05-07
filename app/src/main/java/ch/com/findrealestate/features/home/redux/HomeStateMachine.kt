@@ -2,12 +2,12 @@ package ch.com.findrealestate.features.home.redux
 
 import android.util.Log
 import androidx.annotation.VisibleForTesting
+import ch.com.findrealestate.domain.entity.Property
 import ch.com.findrealestate.domain.usecase.GetPropertiesUseCase
-import ch.com.findrealestate.features.base.BaseFlowReduxStateMachine
-import ch.com.findrealestate.features.base.ofType
+import ch.com.findrealestate.features.home.HomeItem
+import ch.com.findrealestate.features.home.components.similarproperties.redux.HomeSimilarPropertiesSubStateMachine
 import ch.com.findrealestate.features.home.redux.sideeffects.FavoriteSideEffect
-import com.freeletics.flowredux.Reducer
-import com.freeletics.flowredux.SideEffect
+import com.freeletics.flowredux.*
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -21,52 +21,60 @@ import javax.inject.Inject
 @ViewModelScoped
 class HomeStateMachine @Inject constructor(
     private val getPropertiesUseCase: GetPropertiesUseCase,
-    private val favoriteSideEffect: FavoriteSideEffect
-) : BaseFlowReduxStateMachine<HomeState, HomeAction, HomeNavigation>() {
+    private val favoriteSideEffect: FavoriteSideEffect,
+    homeSimilarPropertiesSubStateMachine: HomeSimilarPropertiesSubStateMachine
+) : CompositeStateMachine<HomeState, HomeBaseAction, HomeBaseNavigation>() {
+
+    override val subStateMachines: List<SubStateMachine<HomeState, HomeBaseAction, HomeBaseNavigation>> =
+        listOf(homeSimilarPropertiesSubStateMachine)
 
     override val initialState: HomeState = HomeState.Init
 
     override val initAction: HomeAction = HomeAction.StartLoadData
 
-    override fun sideEffects(): List<SideEffect<HomeState, HomeAction>> =
-        listOf(
+    override fun sideEffects(): List<SideEffect<HomeState, HomeBaseAction>> =
+        createSubStateMachineSideEffects(
             loadPropertiesSideEffect,
             favoriteSideEffect,
             propertyClickSideEffect,
             navigationSideEffect
         )
 
-    override fun reducer(): Reducer<HomeState, HomeAction> = this::reducer
+    override fun reducer(): Reducer<HomeState, HomeBaseAction> =
+        createSubStateMachineReducers(this::reducer)
 
-    fun reducer(state: HomeState, action: HomeAction): HomeState {
+    fun reducer(state: HomeState, action: HomeBaseAction): HomeState {
         return when (action) {
             is HomeAction.StartLoadData -> HomeState.Loading(state)
 
             is HomeAction.DataLoadedError -> HomeState.Error(state, action.error ?: "")
 
-            is HomeAction.DataLoaded -> HomeState.PropertiesLoaded(state, action.properties)
+            is HomeAction.DataLoaded -> HomeState.PropertiesLoaded(
+                state,
+                action.properties.createHomeItemsList()
+            )
 
             is HomeAction.FavoriteUpdated -> {
-                val properties = state.properties.map {
-                    if (it.id == action.propertyId)
-                        it.copy(isFavorite = action.isFavorite)
+                val items = state.items.filterIsInstance<HomeItem.PropertyItem>().map {
+                    if (it.property.id == action.propertyId)
+                        it.copy(property = it.property.copy(isFavorite = action.isFavorite))
                     else it
                 }
                 if (action.isFavorite) {
                     HomeState.AddFavoriteSuccessful(
                         state,
-                        properties = properties,
-                        favoriteProperty = properties.first { it.id == action.propertyId }
+                        items = items,
+                        favoriteProperty = items.first { it.property.id == action.propertyId }.property
                     )
                 } else {
-                    HomeState.PropertiesListUpdated(state, properties = properties)
+                    HomeState.PropertiesListUpdated(state, items = items)
                 }
             }
 
             is HomeAction.FavoriteDialogYesClick,
             is HomeAction.ConfirmRemoveFavoriteNoClick -> HomeState.PropertiesListUpdated(
                 state,
-                properties = state.properties
+                items = state.items
             )
 
             is HomeAction.ConfirmRemoveFavorite -> HomeState.ConfirmFavoriteRemoved(
@@ -77,8 +85,14 @@ class HomeStateMachine @Inject constructor(
         }
     }
 
-    @VisibleForTesting
-    val loadPropertiesSideEffect: SideEffect<HomeState, HomeAction> = { actions, _ ->
+    private fun List<Property>.createHomeItemsList(): List<HomeItem> =
+        this.map { property ->
+            HomeItem.PropertyItem(property = property)
+        }
+
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val loadPropertiesSideEffect: SideEffect<HomeState, HomeBaseAction> = { actions, _ ->
         actions.ofType(HomeAction.StartLoadData::class)
             .onEach { Log.d("Phan", "Start Loading Properties") }
             .flatMapLatest {
@@ -96,16 +110,16 @@ class HomeStateMachine @Inject constructor(
     }
 
 
-    @VisibleForTesting
-    val navigationSideEffect = createNavigationSideEffect<HomeAction> { _, action ->
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val navigationSideEffect = createNavigationSideEffect<HomeBaseAction> { _, action ->
         when (action) {
             is HomeAction.PropertyClick -> HomeNavigation.OpenDetailScreen(action.propertyId)
             else -> null
         }
     }
 
-    @VisibleForTesting
-    val propertyClickSideEffect: SideEffect<HomeState, HomeAction> = { actions, _ ->
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    val propertyClickSideEffect: SideEffect<HomeState, HomeBaseAction> = { actions, _ ->
         actions.ofType(HomeAction.PropertyClick::class)
             .onEach { Log.d("PropertyClickSE", it.toString()) }
             .flatMapLatest { emptyFlow() }
