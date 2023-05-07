@@ -6,8 +6,8 @@ plugins {
     alias(libs.plugins.gradle.ktlint) apply false
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.android.hilt) apply false
-    alias(libs.plugins.kotlin.kapt) apply false
     alias(libs.plugins.kotlin.parcelize) apply false
+    alias(libs.plugins.kotlin.kapt) apply false
 }
 
 

@@ -34,17 +34,9 @@ class DetailNavigatorImpl(
 
         val customBuilder = builder.build()
 
-        if (package_name != null) {
+        customBuilder.intent.setPackage(package_name)
 
-            customBuilder.intent.setPackage(package_name)
-
-            customBuilder.launchUrl(activity, Uri.parse(url))
-        } else {
-
-            val i = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-
-            activity.startActivity(i)
-        }
+        customBuilder.launchUrl(activity, Uri.parse(url))
 
     }
 }

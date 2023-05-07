@@ -3,8 +3,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11 // require android 11 for libs.android.gradlePlugin version 7.4.0+
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17 // require java 17 for android gradle plugin version 8.0.1+
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {

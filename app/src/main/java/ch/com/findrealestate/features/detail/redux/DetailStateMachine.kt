@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@OptIn(FlowPreview::class)
 @ExperimentalCoroutinesApi
 class DetailStateMachine @Inject constructor(private val getPropertyDetail: GetPropertyDetail) :
     FlowReduxStateMachine<DetailState, DetailAction, DetailNavigation>() {

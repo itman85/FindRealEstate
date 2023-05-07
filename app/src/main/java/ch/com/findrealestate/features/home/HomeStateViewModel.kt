@@ -5,8 +5,11 @@ import ch.com.findrealestate.base.FlowReduxViewModel
 import ch.com.findrealestate.features.home.components.similarproperties.redux.HomeSimilarPropertiesNavigation
 import ch.com.findrealestate.features.home.redux.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Inject
 
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class HomeStateViewModel @Inject constructor(
     stateMachine: HomeStateMachine
