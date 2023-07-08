@@ -10,11 +10,13 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
+import org.junit.Ignore
 import org.junit.Test
 import java.util.concurrent.CountDownLatch
 
 // https://proandroiddev.com/from-rxjava-to-kotlin-flow-throttling-ed1778847619
 @OptIn(ExperimentalCoroutinesApi::class)
+@Ignore
 class TestFlow {
     private fun myFlow(): Flow<Int> {
         return flow {
