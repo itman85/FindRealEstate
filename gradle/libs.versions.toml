@@ -1,29 +1,29 @@
 [versions]
 # platform
-androidGradlePlugin = "8.0.1" # https://developer.android.com/build/releases/gradle-plugin
+androidGradlePlugin = "8.0.2" # https://developer.android.com/build/releases/gradle-plugin
 kotlin = "1.8.22" # still not upgrade to 1.9.0 because there no compatible version of ComposeCompiler
 # check compatible version of compose compiler https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-ktlint = "11.3.2"
-detekt = "1.22.0"
+ktlint = "11.5.0"
+detekt = "1.23.0"
 
 # androidX & conpose
-androidxActivity = "1.7.1"
+androidxActivity = "1.7.2"
 # Compose Bom mapping https://developer.android.com/jetpack/compose/bom/bom-mapping
-androidxComposeBom = "2023.05.00"
+androidxComposeBom = "2023.06.01"
 androidxComposeCompiler = "1.4.8" # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-androidxCoreKtx = "1.10.0"
+androidxCoreKtx = "1.10.1"
 androidxLifecycleRuntime = "2.6.1"
 androidxBrowser = "1.5.0"
-androidxComposeMaterial3 = "1.1.0-rc01"
-androidxNavigationCompose = "2.5.3"
+androidxComposeMaterial3 = "1.1.1"
+androidxNavigationCompose = "2.6.0"
 androidxHiltNavigationCompose = "1.0.0"
 # others
-coilCompose = "2.3.0"
-hilt = "2.45" # build error with version 2.46: 'compileJava' task (current target is 17) and 'compileKotlin' task (current target is 18) jvm target compatibility should be set to the same Java version
+coilCompose = "2.4.0"
+hilt = "2.46.1" # build error with version 2.46: 'compileJava' task (current target is 17) and 'compileKotlin' task (current target is 18) jvm target compatibility should be set to the same Java version
 # But with current android gradle plugin, compileJava work with target 17 only, maybe wait for new AGP version use target 18
 retrofit2 = "2.9.0"
 okhttp3Logging= "5.0.0-alpha.11"
-roomDb = "2.5.1"
+roomDb = "2.5.2"
 coroutinesCoreKtx = "1.7.2"
 # testing
 androidxTestExt = "1.1.5"
@@ -31,10 +31,10 @@ androidxTestExt = "1.1.5"
 #androidxTestRunner = "1.4.0"
 androidxEspresso = "3.5.1"
 junit4 = "4.13.2"
-turbine = "0.12.3"
+turbine = "1.0.0"
 kotlinTestJunit5 = "3.4.2"
 mockk = "1.13.5"
-robolectric = "4.10.2"
+robolectric = "4.10.3"
 
 [libraries]
 # androidx compose bom

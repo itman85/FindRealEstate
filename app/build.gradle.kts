@@ -29,7 +29,7 @@ android {
     }
 
     detekt {
-        toolVersion = "1.22.0"
+        toolVersion = "1.23.0"
         config = files("$rootDir/config/detekt/detekt.yml")
     }
 
