@@ -7,6 +7,9 @@ internal fun Project.configureAndroidApplication(extension: ApplicationExtension
     extension.apply {
         defaultConfig {
             targetSdk = 33
+            applicationId = "ch.com.findrealestate"
+            versionCode = 1
+            versionName = "1.0"
         }
         signingConfigs {
             create("release"){
@@ -22,6 +25,8 @@ internal fun Project.configureAndroidApplication(extension: ApplicationExtension
             }
             release {
                 signingConfig = signingConfigs.getByName("release")
+                isMinifyEnabled = true
+                proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             }
         }
     }

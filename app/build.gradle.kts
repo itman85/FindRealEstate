@@ -15,19 +15,6 @@ android {
 
     namespace = "ch.com.findrealestate"
 
-    defaultConfig {
-        applicationId = "ch.com.findrealestate"
-        versionCode = 1
-        versionName = "1.0"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-
     detekt {
         toolVersion = "1.23.0"
         config = files("$rootDir/config/detekt/detekt.yml")
