@@ -19,8 +19,7 @@ androidxNavigationCompose = "2.6.0"
 androidxHiltNavigationCompose = "1.0.0"
 # others
 coilCompose = "2.4.0"
-hilt = "2.46.1" # build error with version 2.46: 'compileJava' task (current target is 17) and 'compileKotlin' task (current target is 18) jvm target compatibility should be set to the same Java version
-# But with current android gradle plugin, compileJava work with target 17 only, maybe wait for new AGP version use target 18
+hilt = "2.46.1"
 retrofit2 = "2.9.0"
 okhttp3Logging= "5.0.0-alpha.11"
 roomDb = "2.5.2"
