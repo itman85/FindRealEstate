@@ -10,6 +10,14 @@ internal fun Project.configureAndroidLibrary(
         defaultConfig {
             // set targetSdk is deprecated (seem no need to set target sdk for library)
            // targetSdk = 33
+            consumerProguardFiles("consumer-rules.pro")
+        }
+
+        buildTypes {
+            release {
+                isMinifyEnabled = true
+                proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            }
         }
     }
 }
