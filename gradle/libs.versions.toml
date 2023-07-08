@@ -1,7 +1,8 @@
 [versions]
 # platform
 androidGradlePlugin = "8.0.1" # https://developer.android.com/build/releases/gradle-plugin
-kotlin = "1.9.0"
+kotlin = "1.8.22" # still not upgrade to 1.9.0 because there no compatible version of ComposeCompiler
+# check compatible version of compose compiler https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 ktlint = "11.3.2"
 detekt = "1.22.0"
 
@@ -9,7 +10,7 @@ detekt = "1.22.0"
 androidxActivity = "1.7.1"
 # Compose Bom mapping https://developer.android.com/jetpack/compose/bom/bom-mapping
 androidxComposeBom = "2023.05.00"
-androidxComposeCompiler = "1.4.7" # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+androidxComposeCompiler = "1.4.8" # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 androidxCoreKtx = "1.10.0"
 androidxLifecycleRuntime = "2.6.1"
 androidxBrowser = "1.5.0"
