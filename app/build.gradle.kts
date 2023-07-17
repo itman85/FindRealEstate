@@ -15,11 +15,20 @@ android {
 
     namespace = "ch.com.findrealestate"
 
+    defaultConfig{
+        //testInstrumentationRunner = "ch.com.findrealestate.runner.UITestRunner"
+    }
+
     detekt {
         toolVersion = "1.23.0"
         config = files("$rootDir/config/detekt/detekt.yml")
     }
 
+    /*sourceSets {
+        named("androidTestMock") {
+            manifest.srcFile("$rootDir/app/src/androidTestMock/AndroidManifest.xml")
+        }
+    }*/
 }
 
 dependencies {
@@ -51,9 +60,13 @@ dependencies {
     implementation (project(":flow-redux"))
 
     testImplementation(project(":testutils"))
-    testImplementation(libs.junit4)
-    testImplementation(libs.kotlinTestJunit5)
-    testImplementation(libs.turbine)
-    androidTestImplementation(libs.androidx.test.ext)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+    testImplementation(libs.robolectric)
+    kaptTest(libs.hilt.android.compiler) // this is need for robolectric tests
+
+    androidTestImplementation(project(":testutils"))
+    kaptAndroidTest(libs.hilt.android.compiler) // this is need for UI tests
+    // com.google.dagger:hilt-android-testing (androidTestImplementation)
+    // com.google.dagger:hilt-android-compiler (kapt)
+    // androidx.compose.ui:ui-test-manifest (debugImplementation, currently it is androidTestImplementation from testutils)
+    // androidx.compose.ui:ui-test-junit4 (androidTestImplementation)
 }

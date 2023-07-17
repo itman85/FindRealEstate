@@ -15,7 +15,18 @@ internal fun Project.configureAndroidCommon(
             vectorDrawables {
                 useSupportLibrary = true
             }
-            testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+            // custom instrumentation test runner with hilt application
+            testInstrumentationRunner = "ch.com.findrealestate.runner.UITestRunner"
+        }
+
+        flavorDimensions += "app"
+        productFlavors {
+            create("prod"){
+                dimension = "app"
+            }
+            create("mock"){
+                dimension = "app"
+            }
         }
 
         buildFeatures {

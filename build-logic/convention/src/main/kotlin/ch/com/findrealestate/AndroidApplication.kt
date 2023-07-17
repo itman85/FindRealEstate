@@ -30,4 +30,5 @@ internal fun Project.configureAndroidApplication(extension: ApplicationExtension
             }
         }
     }
+
 }
