@@ -2,6 +2,7 @@ package ch.com.findrealestate
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
 
 @Suppress("UnstableApiUsage")
 internal fun Project.configureAndroidCommon(
@@ -43,5 +44,11 @@ internal fun Project.configureAndroidCommon(
                 excludes += "META-INF/*"
             }
         }
+
+        // todo want to add common test dependencies for android application and android library here but error 'kaptTest' not found
+        /*dependencies {
+            unitTestDependencies(this@configureAndroidCommon)
+            androidTestDependencies(this@configureAndroidCommon)
+        }*/
     }
 }

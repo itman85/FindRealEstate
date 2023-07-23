@@ -21,7 +21,7 @@ androidxHiltNavigationCompose = "1.0.0"
 coilCompose = "2.4.0"
 hilt = "2.46.1"
 retrofit2 = "2.9.0"
-okhttp3Logging= "5.0.0-alpha.11"
+okhttp3= "5.0.0-alpha.11"
 roomDb = "2.5.2"
 coroutinesCoreKtx = "1.7.2"
 # testing
@@ -59,7 +59,7 @@ hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-comp
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "androidxBrowser" }
 retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
 retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2" }
-okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3Logging" }
+okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomDb" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomDb" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomDb" }
@@ -74,6 +74,7 @@ turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine
 kotlinTestJunit5 = { group = "io.kotlintest", name = "kotlintest-runner-junit5", version.ref = "kotlinTestJunit5" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+okhttp3-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "okhttp3" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesCoreKtx" }
 # compose testing
@@ -90,6 +91,12 @@ kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-pl
 # refer to androidx-compose-bom
 composeBomList = ["androidx-compose-ui","androidx-compose-ui-tooling"]
 testComposeBomList = ["androidx-compose-ui-test","androidx-compose-ui-testManifest"]
+# libs bundle for unit test
+unitTestLibs = ["robolectric","mockk","hilt-android-test","kotlinx-coroutines-test","junit4","androidx-test-ext","kotlinTestJunit5","turbine"]
+# libs bundle for android ui test
+androidTestLibs = ["mockk-android","hilt-android-test","kotlinx-coroutines-test","junit4","androidx-test-ext","kotlinTestJunit5","turbine",
+    "androidx-compose-ui-test","androidx-compose-ui-testManifest","androidx-test-espresso-core",
+    "okhttp3-mockwebserver","retrofit2","retrofit2-converter-gson"]
 
 
 [plugins]

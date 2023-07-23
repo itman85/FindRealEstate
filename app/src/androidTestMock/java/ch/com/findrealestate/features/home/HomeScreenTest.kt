@@ -1,15 +1,13 @@
-package ch.com.findrealestate.home
+package ch.com.findrealestate.features.home
 
 import android.content.Intent
 import androidx.compose.material3.Text
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import ch.com.findrealestate.home.HomeScreenTestActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -30,7 +28,7 @@ class HomeScreenTest {
     // private val composeTestRule: ComposeContentTestRule = createAndroidComposeRule<HomeScreenTestActivity>()
 
     //@get:Rule(order = 0)
-    private val hiltRule = HiltAndroidRule(this)
+    private val hiltRule by lazy { HiltAndroidRule(this) }
 
     //@get:Rule(order = 1)
     private val composeTestRule by lazy {

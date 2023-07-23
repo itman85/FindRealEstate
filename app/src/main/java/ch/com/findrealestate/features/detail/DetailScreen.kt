@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -169,7 +170,7 @@ fun DetailInfoComponent(
     propertyDetail: PropertyDetail,
     onOpenWebsiteClick: () -> Unit
 ) {
-    Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+    Column(modifier = modifier.verticalScroll(rememberScrollState()).testTag("detail_data")) {
         Text(text = propertyDetail.title)
         Spacer(modifier = modifier.padding(top = 8.dp))
         Button(onClick = onOpenWebsiteClick) {

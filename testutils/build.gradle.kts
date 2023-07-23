@@ -12,15 +12,14 @@ android {
 
 dependencies {
     // these dependencies can be referenced in both unit test and ui test
-    api(libs.mockk)
-    api(libs.mockk.android)
-    api(libs.kotlinx.coroutines.test)
-    api(libs.junit4)
-    api(libs.androidx.test.ext)
-    //api(libs.robolectric) robolectric does not work in androidTest, so exclude it
-    api(libs.kotlinTestJunit5)
-    api(libs.turbine)
-    api(libs.androidx.test.espresso.core)
-    api(libs.bundles.testComposeBomList)
-    api(libs.hilt.android.test)
+    implementation(libs.mockk)
+    implementation(libs.mockk.android)
+    implementation(libs.kotlinx.coroutines.test)
+    implementation(libs.junit4)
+    implementation(libs.androidx.test.ext)
+    implementation(libs.kotlinTestJunit5)
+    implementation(libs.turbine)
+    implementation(libs.androidx.test.espresso.core)
+    implementation(libs.bundles.testComposeBomList)
+    implementation(libs.hilt.android.test)
 }

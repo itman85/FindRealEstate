@@ -1,4 +1,7 @@
 @file:Suppress("UnstableApiUsage")
+
+import ch.com.findrealestate.unitTestDependencies
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("myapp.android.library")
@@ -36,8 +39,6 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
-    testImplementation(libs.junit4)
-    implementation(project(":testutils"))
-    androidTestImplementation(libs.androidx.test.ext)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+    // unit test dependencies
+    unitTestDependencies(project)
 }
