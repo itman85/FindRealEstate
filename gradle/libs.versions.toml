@@ -4,7 +4,7 @@ androidGradlePlugin = "8.0.2" # https://developer.android.com/build/releases/gra
 kotlin = "1.8.22" # still not upgrade to 1.9.0 because there no compatible version of ComposeCompiler
 # check compatible version of compose compiler https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 ktlint = "11.5.0"
-detekt = "1.23.0"
+detekt = "1.23.1"
 
 # androidX & conpose
 androidxActivity = "1.7.2"
