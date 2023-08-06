@@ -1,87 +1,109 @@
 package ch.com.findrealestate.features.home
 
-import android.content.Intent
-import androidx.compose.material3.Text
+import android.content.Context
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
-import ch.com.findrealestate.home.HomeScreenTestActivity
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.printToLog
+import androidx.navigation.compose.rememberNavController
+import androidx.test.platform.app.InstrumentationRegistry
+import ch.com.findrealestate.R
+import ch.com.findrealestate.TestActivity
+import ch.com.findrealestate.mock.PropertiesApiMocker
+import ch.com.findrealestate.navigation.home.HomeNavigatorImpl
+import ch.com.findrealestate.ui.theme.FindRealEstateTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
-import org.junit.rules.TestRule
-import org.junit.runner.Description
-import org.junit.runners.model.Statement
+import javax.inject.Inject
 
 @HiltAndroidTest
 class HomeScreenTest {
 
-    private lateinit var activityScenario: ActivityScenario<HomeScreenTestActivity>
-
-    // this way will launch activity with action main and category launch
-    // private val composeTestRule: ComposeContentTestRule = createAndroidComposeRule<HomeScreenTestActivity>()
-
-    //@get:Rule(order = 0)
     private val hiltRule by lazy { HiltAndroidRule(this) }
 
-    //@get:Rule(order = 1)
-    private val composeTestRule by lazy {
-        AndroidComposeTestRule(EmptyTestRule()) {
-            var activity: HomeScreenTestActivity? = null
-            if(this::activityScenario.isInitialized)
-                activityScenario.onActivity { activity = it }
-            checkNotNull(activity) { "Activity didn't launch" }
-        }
-    }
+    private val composeTestRule = createAndroidComposeRule<TestActivity>()
 
     @get:Rule
     val rule: RuleChain = RuleChain.outerRule(hiltRule).around(composeTestRule)
 
+    @Inject
+    lateinit var propertiesApiMocker: PropertiesApiMocker
+
+    @Inject
+    lateinit var mockWebServer: MockWebServer
+
+    private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+
     @Before
     fun setup() {
-         hiltRule.inject()
+        hiltRule.inject()
+        mockWebServer.start()
     }
 
+    @After
+    fun teardown() {
+        if (this::mockWebServer.isInitialized)
+            mockWebServer.shutdown()
+    }
 
     @Test
-    fun firstTest() {
+    fun loadHomeScreen_MockProperties_Success() {
+        // this is properties api
+        propertiesApiMocker.getPropertiesSuccess()
+        // this is for similar properties api
+        propertiesApiMocker.getSimilarPropertiesSuccess()
+
         composeTestRule.setContent {
-            Text(text = "Test")
+            HomeScreenContent()
         }
+
+        composeTestRule.waitUntil(timeoutMillis = 10000L) {
+            composeTestRule.onAllNodesWithTag("the_list").fetchSemanticsNodes().isNotEmpty()
+
+        }
+        composeTestRule.onRoot(useUnmergedTree = true).printToLog("Home Before")
+        composeTestRule.onNode(hasText(context.resources.getString(R.string.loading_text)))
+            .assertIsDisplayed()
+
+        composeTestRule.waitUntil(timeoutMillis = 10000L) {
+            composeTestRule.onAllNodesWithTag("property_item").fetchSemanticsNodes().isNotEmpty()
+
+        }
+        composeTestRule.onRoot(useUnmergedTree = true).printToLog("Home After")
+        composeTestRule.onNode(hasText("Street 999, NE, CH")).assertIsDisplayed()
     }
 
     @Test
-    fun testHomeScreen() {
+    fun loadHomeScreen_MockProperties_Failed() {
+        // this is properties api
+        propertiesApiMocker.getPropertiesFailed()
 
-        ActivityScenario.launch<HomeScreenTestActivity>(
-            Intent(ApplicationProvider.getApplicationContext(), HomeScreenTestActivity::class.java)
-        ).use {
-            activityScenario = it
-            composeTestRule.onNodeWithText("Real Estate").assertIsDisplayed()
+        composeTestRule.setContent {
+            HomeScreenContent()
         }
 
-        //  composeTestRule.onNodeWithTag("the_list").onChildAt(0).assert(hasText("999"))
-    }
+        composeTestRule.waitUntil(timeoutMillis = 10000L) {
+            composeTestRule.onAllNodesWithTag("the_list").fetchSemanticsNodes().isNotEmpty()
 
-    @Test
-    fun test() {
-        ActivityScenario.launch<HomeScreenTestActivity>(
-            Intent(ApplicationProvider.getApplicationContext(), HomeScreenTestActivity::class.java)
-        ).use {
-            activityScenario = it
-            composeTestRule.onNode(hasText("Hello")).assertExists()
         }
+        composeTestRule.onRoot(useUnmergedTree = true).printToLog("Home After")
+        composeTestRule.onNode(hasText("Error happen")).assertIsDisplayed()
     }
 }
 
-class EmptyTestRule : TestRule {
-    override fun apply(base: Statement, description: Description) = base
+@Composable
+fun HomeScreenContent(navigator: HomeNavigator? = null) {
+    FindRealEstateTheme {
+        val navController = rememberNavController()
+        HomeScreen(navigator = navigator ?: HomeNavigatorImpl(navController))
+    }
 }
-
-

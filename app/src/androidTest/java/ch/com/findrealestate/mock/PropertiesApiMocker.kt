@@ -1,11 +1,14 @@
 package ch.com.findrealestate.mock
 
-import ch.com.findrealestate.data.models.DetailPropertyApiModel
-import ch.com.findrealestate.data.models.PropertyApiModel
-
 interface PropertiesApiMocker {
 
     fun getPropertiesSuccess()
 
-    fun getDetailPropertySuccess(propertyId:String)
+    fun getPropertiesFailed()
+
+    fun getSimilarPropertiesSuccess()
+
+    fun getDetailPropertySuccess(propertyId: String)
+
+    fun getDetailPropertyFailed(propertyId: String)
 }

@@ -82,6 +82,8 @@ androidx-compose-ui-test = { group = "androidx.compose.ui", name = "ui-test-juni
 androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 #kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
 hilt-android-test = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+# navigation compose testing
+androidx-navigation-compose-test = {group = "androidx.navigation", name = "navigation-testing", version.ref = "androidxNavigationCompose"}
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" } #
@@ -96,7 +98,7 @@ unitTestLibs = ["robolectric","mockk","hilt-android-test","kotlinx-coroutines-te
 # libs bundle for android ui test
 androidTestLibs = ["mockk-android","hilt-android-test","kotlinx-coroutines-test","junit4","androidx-test-ext","kotlinTestJunit5","turbine",
     "androidx-compose-ui-test","androidx-compose-ui-testManifest","androidx-test-espresso-core",
-    "okhttp3-mockwebserver","retrofit2","retrofit2-converter-gson"]
+    "okhttp3-mockwebserver","retrofit2","retrofit2-converter-gson","androidx-navigation-compose-test"]
 
 
 [plugins]

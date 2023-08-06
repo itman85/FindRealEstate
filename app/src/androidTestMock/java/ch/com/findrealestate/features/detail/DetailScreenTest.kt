@@ -67,25 +67,12 @@ class DetailScreenTest {
         composeTestRule.onNode(hasText("Test")).assertExists()
     }
 
-    // this test will load real data from api
-    @Test
-    fun detailDisplayOpenWebsiteButton_RealDetailListing(){
-        composeTestRule.setContent {
-            DetailScreenContent("104123262")
-        }
-        composeTestRule.onRoot(useUnmergedTree = true).printToLog("Detail Before")
-        composeTestRule.waitUntil(timeoutMillis = 5000L) {
-            composeTestRule.onAllNodesWithTag("detail_data").fetchSemanticsNodes().isNotEmpty()
-        }
-        composeTestRule.onRoot(useUnmergedTree = true).printToLog("Detail After")
-        composeTestRule.onNode(hasText("Open property website")).assertIsDisplayed()
-    }
-
-    // this test will mock detail listing data use mockWebServer
     @Test
     fun detailDisplayOpenWebsiteButton_MockDetailListing(){
         val propertyId = "104123262"
+        // this will mock detail listing api use mockWebServer
         propertiesApiMocker.getDetailPropertySuccess(propertyId)
+
         composeTestRule.setContent {
             DetailScreenContent(propertyId)
         }

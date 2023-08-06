@@ -144,7 +144,7 @@ fun DetailScreen(propertyId: String?, navigator: DetailNavigator) {
 
 @Composable
 fun DetailLoadingComponent(modifier: Modifier, propertyId: String) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.testTag("detail_loading_text")) {
         Text(
             text = "Loading detail data for Property Id $propertyId",
             textAlign = TextAlign.Center,

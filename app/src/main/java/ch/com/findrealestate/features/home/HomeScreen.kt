@@ -233,6 +233,7 @@ fun PropertyItem(
         modifier = Modifier
             .padding(start = 20.dp, end = 20.dp)
             .clickable { propertyClick(property.id) }
+            .testTag("property_item")
     ) {
         Box {
             Box(
