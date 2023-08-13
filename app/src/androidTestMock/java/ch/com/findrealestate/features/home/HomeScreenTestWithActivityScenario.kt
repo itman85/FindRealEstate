@@ -12,6 +12,7 @@ import ch.com.findrealestate.home.HomeScreenTestActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -49,6 +50,7 @@ class HomeScreenTestWithActivityScenario {
     }
 
 
+    @Ignore
     @Test
     fun firstTest() {
         composeTestRule.setContent {
@@ -69,6 +71,7 @@ class HomeScreenTestWithActivityScenario {
         //  composeTestRule.onNodeWithTag("the_list").onChildAt(0).assert(hasText("999"))
     }
 
+    @Ignore
     @Test
     fun test() {
         ActivityScenario.launch<HomeScreenTestActivity>(

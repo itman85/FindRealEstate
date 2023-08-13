@@ -24,27 +24,10 @@ import javax.inject.Singleton
 )
 class MockNetworkModule {
 
-    /* use MockWebServer so will not need to mock PropertiesApi
-    @Provides
-    @Singleton
-    fun provideApiService():PropertiesApi{
-        // cannot use mockk() as there was issue here https://github.com/mockk/mockk/issues/1035
-        return spyk(object : PropertiesApi{
-            override suspend fun getProperties(): PropertyApiModel {
-                return PropertyApiModel()
-            }
-
-            override suspend fun getDetailProperty(propertyId: String): DetailPropertyApiModel {
-                return DetailPropertyApiModel()
-            }
-        })
-    }
-     */
-
     @Provides
     @Singleton
     fun provideMockRetrofit(mockWebServer: MockWebServer): Retrofit {
-        val baseUrl = mockWebServer.url("/").toString()
+        val baseUrl = mockWebServer.url("/")
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())

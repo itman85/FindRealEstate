@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onRoot
@@ -14,67 +13,31 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.testing.TestNavHostController
-import ch.com.findrealestate.TestActivity
+import ch.com.findrealestate.base.MockApiActivityTest
 import ch.com.findrealestate.mock.PropertiesApiMocker
 import ch.com.findrealestate.navigation.Destinations
 import ch.com.findrealestate.navigation.detail.detail
 import ch.com.findrealestate.navigation.home.home
 import ch.com.findrealestate.ui.theme.FindRealEstateTheme
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.kotlintest.shouldBe
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
-import javax.inject.Inject
 
 @HiltAndroidTest
-class HomeScreenNavigationTest {
-
-    private val hiltRule by lazy { HiltAndroidRule(this) }
-
-    private val composeTestRule = createAndroidComposeRule<TestActivity>()
-
-    @get:Rule
-    val rule: RuleChain = RuleChain.outerRule(hiltRule).around(composeTestRule)
-
-    @Inject
-    lateinit var propertiesApiMocker: PropertiesApiMocker
-
-    @Inject
-    lateinit var mockWebServer: MockWebServer
-
-    private lateinit var navController: TestNavHostController
-
-    @Before
-    fun setup() {
-        hiltRule.inject()
-        mockWebServer.start()
-    }
-
-    @After
-    fun teardown() {
-        if (this::mockWebServer.isInitialized)
-            mockWebServer.shutdown()
-    }
+class HomeScreenNavigationTest : MockApiActivityTest<PropertiesApiMocker>() {
 
     @Test
     fun loadHomeScreen_OpenDetail() {
         // this is properties api
-        propertiesApiMocker.getPropertiesSuccess()
+        apiMocker.getPropertiesSuccess()
         // this is for similar properties api
-        propertiesApiMocker.getSimilarPropertiesSuccess()
+        apiMocker.getSimilarPropertiesSuccess()
 
         // this mock is for detail property api
         val propertyId = "104123262"
-        propertiesApiMocker.getDetailPropertySuccess(propertyId)
+        apiMocker.getDetailPropertySuccess(propertyId)
 
         composeTestRule.setContent {
-            navController = TestNavHostController(LocalContext.current)
-            navController.navigatorProvider.addNavigator(ComposeNavigator())
             ScreensNavigationContent(navController)
         }
 

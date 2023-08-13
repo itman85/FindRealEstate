@@ -1,6 +1,6 @@
 package ch.com.findrealestate.mock
 
-interface PropertiesApiMocker {
+interface PropertiesApiMocker : ApiMocker {
 
     fun getPropertiesSuccess()
 

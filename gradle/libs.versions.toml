@@ -96,6 +96,7 @@ testComposeBomList = ["androidx-compose-ui-test","androidx-compose-ui-testManife
 # libs bundle for unit test
 unitTestLibs = ["robolectric","mockk","hilt-android-test","kotlinx-coroutines-test","junit4","androidx-test-ext","kotlinTestJunit5","turbine"]
 # libs bundle for android ui test
+# androidx-compose-ui-testManifest ???
 androidTestLibs = ["mockk-android","hilt-android-test","kotlinx-coroutines-test","junit4","androidx-test-ext","kotlinTestJunit5","turbine",
     "androidx-compose-ui-test","androidx-compose-ui-testManifest","androidx-test-espresso-core",
     "okhttp3-mockwebserver","retrofit2","retrofit2-converter-gson","androidx-navigation-compose-test"]

@@ -4,63 +4,28 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.printToLog
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry
 import ch.com.findrealestate.R
-import ch.com.findrealestate.TestActivity
+import ch.com.findrealestate.base.MockApiActivityTest
 import ch.com.findrealestate.mock.PropertiesApiMocker
 import ch.com.findrealestate.navigation.home.HomeNavigatorImpl
 import ch.com.findrealestate.ui.theme.FindRealEstateTheme
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
-import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.RuleChain
-import javax.inject.Inject
 
 @HiltAndroidTest
-class HomeScreenTest {
-
-    private val hiltRule by lazy { HiltAndroidRule(this) }
-
-    private val composeTestRule = createAndroidComposeRule<TestActivity>()
-
-    @get:Rule
-    val rule: RuleChain = RuleChain.outerRule(hiltRule).around(composeTestRule)
-
-    @Inject
-    lateinit var propertiesApiMocker: PropertiesApiMocker
-
-    @Inject
-    lateinit var mockWebServer: MockWebServer
-
-    private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-
-    @Before
-    fun setup() {
-        hiltRule.inject()
-        mockWebServer.start()
-    }
-
-    @After
-    fun teardown() {
-        if (this::mockWebServer.isInitialized)
-            mockWebServer.shutdown()
-    }
+class HomeScreenTest : MockApiActivityTest<PropertiesApiMocker>() {
 
     @Test
     fun loadHomeScreen_MockProperties_Success() {
         // this is properties api
-        propertiesApiMocker.getPropertiesSuccess()
+        apiMocker.getPropertiesSuccess()
         // this is for similar properties api
-        propertiesApiMocker.getSimilarPropertiesSuccess()
+        apiMocker.getSimilarPropertiesSuccess()
 
         composeTestRule.setContent {
             HomeScreenContent()
@@ -85,7 +50,7 @@ class HomeScreenTest {
     @Test
     fun loadHomeScreen_MockProperties_Failed() {
         // this is properties api
-        propertiesApiMocker.getPropertiesFailed()
+        apiMocker.getPropertiesFailed()
 
         composeTestRule.setContent {
             HomeScreenContent()

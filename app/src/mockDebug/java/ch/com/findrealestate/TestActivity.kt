@@ -1,7 +1,6 @@
 package ch.com.findrealestate
 
-import android.os.Bundle
-import android.os.PersistableBundle
+
 import androidx.activity.ComponentActivity
 import dagger.hilt.android.AndroidEntryPoint
 
