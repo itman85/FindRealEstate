@@ -17,6 +17,8 @@ abstract class FlowReduxViewModel<S : Any, A : Any, N : Any> constructor(
 ) : ViewModel() {
     protected val stateflow = MutableStateFlow(stateMachine.initialState)
 
+    protected val navigationFlow = MutableStateFlow<N?>(null)
+
     var navigationValue: N? = null // current navigation value
 
     init {
@@ -32,6 +34,7 @@ abstract class FlowReduxViewModel<S : Any, A : Any, N : Any> constructor(
                 stateMachine.navigation().collect {
                     Log.d("Phan2", "Navigation collect $it")
                     navigationValue = it
+                    navigationFlow.value = it
                     handleNavigation(it)
                 }
             }
@@ -44,8 +47,9 @@ abstract class FlowReduxViewModel<S : Any, A : Any, N : Any> constructor(
     fun rememberState() =
         stateflow.collectAsState() // in this way stateflow still in memory, then it will preserve previous state
 
-    //@Composable
-    //fun rememberNavigation() = navigationFlow.collectAsState()
+    @Composable
+    fun rememberNavigation() =
+        navigationFlow.collectAsState() // If two items arrive in succession without delay, only the latter one will be received. this is default behaviour of state flow
 
     fun dispatch(action: A) = viewModelScope.launch {
         stateMachine.dispatch(action = action)

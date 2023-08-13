@@ -29,8 +29,15 @@ import ch.com.findrealestate.domain.entity.Property
 import ch.com.findrealestate.features.home.components.similarproperties.HomeSimilarPropertiesComponent
 import ch.com.findrealestate.features.home.components.similarproperties.redux.HomeSimilarPropertiesAction
 import ch.com.findrealestate.features.home.redux.HomeAction
+import ch.com.findrealestate.features.home.redux.HomeBaseNavigation
+import ch.com.findrealestate.features.home.redux.HomeNavigation
 import ch.com.findrealestate.features.home.redux.HomeState
 import ch.com.findrealestate.ui.theme.FindRealEstateTheme
+
+enum class DISPLAY_DIALOG_TYPE {
+    ADD_FAVOURITE_SUCCESS,
+    CONFIRM_REMOVE_FAVOURITE
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,22 +50,37 @@ fun HomeScreen(navigator: HomeNavigator) {
     //viewModel.startLoadData()
     //val homeState by viewModel.rememberState()
 
+    // internal state, no need remembering
+    var isDisplayDialog: Boolean = false
+    // get home state value
     val homeStateValue =
         viewModel.rememberState().value // use homeState value instead of this way: homeState by viewModel.rememberState(). this will help to avoid recompose in composable which is linked to this remember state
     Log.d("Phan", "home state change $homeStateValue")
-
-    // val homeNavigationValue = viewModel.rememberNavigation().value
-    // Log.d("Phan", "navigation change $homeNavigationValue")
-    /* LaunchedEffect(homeNavigationValue) {
-         // should put all computation stuffs into LaunchedEffect, to avoid re-computing everytime enter recomposition
-         when (homeNavigationValue) {
-             is HomeNavigation.OpenDetailScreen -> navigator.navigateToDetail(homeNavigationValue.propertyId)
-             else -> {
-                 Log.i("Phan", "No navigation, just stay Home screen")
-             }
-         }
-     }
-     */
+    // get home navigation value
+    val homeNavigationValue = viewModel.rememberNavigation().value
+    Log.d("Phan", "navigation change $homeNavigationValue")
+    LaunchedEffect(homeNavigationValue) {
+        // should put all computation stuffs into LaunchedEffect, to avoid re-computing everytime enter recomposition
+        when (homeNavigationValue) {
+            is HomeNavigation.OpenDetailScreen -> navigator.navigateToDetail(homeNavigationValue.propertyId)
+            is HomeNavigation.OpenDialogAddFavouriteSuccess,
+            is HomeNavigation.OpenDialogRemovedFavouriteConfirmation -> isDisplayDialog = true
+            else -> {
+                Log.i("Phan", "No navigation, just stay Home screen")
+            }
+        }
+    }
+    // after updating isDisplayDialog value, check if it needs to display dialog
+    if (isDisplayDialog) {
+        DisplayDialog(
+            navigation = homeNavigationValue,
+            favoriteDialogYesClick = { viewModel.dispatch(HomeAction.FavoriteDialogYesClick) },
+            confirmRemoveFavoriteDialogYes = { id ->
+                viewModel.dispatch(HomeAction.ConfirmRemoveFavoriteYesClick(id))
+            },
+            confirmRemoveFavoriteDialogNo = { viewModel.dispatch(HomeAction.ConfirmRemoveFavoriteNoClick) }
+        )
+    }
 
     Scaffold(topBar = {
         TopAppBar(title = { Text("Real Estate") })
@@ -66,6 +88,7 @@ fun HomeScreen(navigator: HomeNavigator) {
         PropertiesList(
             homeStateValue,
             paddingValues,
+            isDisplayDialog,
             favoriteClick = { id -> viewModel.dispatch(HomeAction.FavoriteClick(id)) },
             propertyClick = { id -> viewModel.dispatch(HomeAction.PropertyClick(id)) },
             similarPropertyClick = { id ->
@@ -75,11 +98,7 @@ fun HomeScreen(navigator: HomeNavigator) {
                     )
                 )
             },
-            favoriteDialogYesClick = { viewModel.dispatch(HomeAction.FavoriteDialogYesClick) },
-            confirmRemoveFavoriteDialogYes = { id ->
-                viewModel.dispatch(HomeAction.ConfirmRemoveFavoriteYesClick(id))
-            },
-            confirmRemoveFavoriteDialogNo = { viewModel.dispatch(HomeAction.ConfirmRemoveFavoriteNoClick) })
+        )
     }
     DisposableEffect(Unit) {
         onDispose {
@@ -92,12 +111,10 @@ fun HomeScreen(navigator: HomeNavigator) {
 fun PropertiesList(
     homeState: HomeState,
     paddingValues: PaddingValues,
+    isDisplayDialog: Boolean,
     favoriteClick: (String) -> Unit,
     propertyClick: (String) -> Unit,
-    similarPropertyClick: (String) -> Unit,
-    favoriteDialogYesClick: () -> Unit,
-    confirmRemoveFavoriteDialogYes: (String) -> Unit,
-    confirmRemoveFavoriteDialogNo: () -> Unit
+    similarPropertyClick: (String) -> Unit
 ) {
     // should not mix expensive computation into UI stuffs, UI stuffs get recomposed un-controlled, depend on system.
     val scrollableState = rememberLazyListState()
@@ -118,14 +135,14 @@ fun PropertiesList(
                     Loading()
                 }
             }
+
             is HomeState.Error -> {
                 item {
                     SmgErrorView()
                 }
             }
+
             is HomeState.PropertiesLoaded,
-            is HomeState.AddFavoriteSuccessful,
-            is HomeState.ConfirmFavoriteRemoved,
             is HomeState.PropertiesListUpdated -> {
                 val homeItemsList = homeState.items
                 items(
@@ -138,6 +155,7 @@ fun PropertiesList(
                                 toggleFavorite = favoriteClick,
                                 propertyClick = propertyClick
                             )
+
                             is HomeItem.SimilarPropertiesItem -> HomeSimilarPropertiesComponent(
                                 properties = homeItem.properties,
                                 onItemClick = { similarPropertyClick(it.id) }
@@ -147,6 +165,7 @@ fun PropertiesList(
                     }
                 }
             }
+
             else -> {
                 Log.i("Phan", "Not update ui for this state $homeState")
             }
@@ -155,19 +174,31 @@ fun PropertiesList(
             Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing))
         }
     }
-    if (homeState is HomeState.AddFavoriteSuccessful) {
-        AddFavoriteSuccessfulDialog(
-            property = homeState.favoriteProperty,
+}
+
+@Composable
+private fun DisplayDialog(
+    navigation: HomeBaseNavigation?,
+    favoriteDialogYesClick: () -> Unit,
+    confirmRemoveFavoriteDialogYes: (String) -> Unit,
+    confirmRemoveFavoriteDialogNo: () -> Unit
+) {
+    when (navigation) {
+        is HomeNavigation.OpenDialogAddFavouriteSuccess -> AddFavoriteSuccessfulDialog(
+            property = navigation.favoriteProperty,
             onYesClick = favoriteDialogYesClick
         )
-    } else if (homeState is HomeState.ConfirmFavoriteRemoved) {
-        ConfirmFavoriteRemovedDialog(
-            propertyId = homeState.propertyId,
+
+        is HomeNavigation.OpenDialogRemovedFavouriteConfirmation -> ConfirmFavoriteRemovedDialog(
+            propertyId = navigation.propertyId,
             confirmRemoveFavoriteDialogYes,
             confirmRemoveFavoriteDialogNo
         )
-    }
 
+        else -> {
+            // do nothing
+        }
+    }
 }
 
 @Composable

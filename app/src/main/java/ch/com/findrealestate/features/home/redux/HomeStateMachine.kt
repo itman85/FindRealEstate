@@ -7,7 +7,11 @@ import ch.com.findrealestate.domain.usecase.GetPropertiesUseCase
 import ch.com.findrealestate.features.home.HomeItem
 import ch.com.findrealestate.features.home.components.similarproperties.redux.HomeSimilarPropertiesSubStateMachine
 import ch.com.findrealestate.features.home.redux.sideeffects.FavoriteSideEffect
-import com.freeletics.flowredux.*
+import com.freeletics.flowredux.CompositeStateMachine
+import com.freeletics.flowredux.Reducer
+import com.freeletics.flowredux.SideEffect
+import com.freeletics.flowredux.SubStateMachine
+import com.freeletics.flowredux.ofType
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -60,15 +64,7 @@ class HomeStateMachine @Inject constructor(
                         it.copy(property = it.property.copy(isFavorite = action.isFavorite))
                     else it
                 }
-                if (action.isFavorite) {
-                    HomeState.AddFavoriteSuccessful(
-                        state,
-                        items = items,
-                        favoriteProperty = items.first { it.property.id == action.propertyId }.property
-                    )
-                } else {
-                    HomeState.PropertiesListUpdated(state, items = items)
-                }
+                HomeState.PropertiesListUpdated(state, items = items)
             }
 
             is HomeAction.FavoriteDialogYesClick,
@@ -77,10 +73,6 @@ class HomeStateMachine @Inject constructor(
                 items = state.items
             )
 
-            is HomeAction.ConfirmRemoveFavorite -> HomeState.ConfirmFavoriteRemoved(
-                state,
-                action.propertyId
-            )
             else -> state
         }
     }
@@ -111,9 +103,16 @@ class HomeStateMachine @Inject constructor(
 
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    val navigationSideEffect = createNavigationSideEffect<HomeBaseAction> { _, action ->
+    val navigationSideEffect = createNavigationSideEffect<HomeBaseAction> { state, action ->
         when (action) {
             is HomeAction.PropertyClick -> HomeNavigation.OpenDetailScreen(action.propertyId)
+            is HomeAction.FavoriteUpdated -> state.findPropertyItem(action.propertyId)
+                ?.let { HomeNavigation.OpenDialogAddFavouriteSuccess(it.property) }
+
+            is HomeAction.ConfirmRemoveFavorite -> HomeNavigation.OpenDialogRemovedFavouriteConfirmation(
+                action.propertyId
+            )
+
             else -> null
         }
     }
