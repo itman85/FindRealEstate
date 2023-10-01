@@ -5,6 +5,7 @@ plugins {
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    //compileOnly(libs.ksp.gradlePlugin) // in case want to create convention plugin for KSP
 }
 
 gradlePlugin{

@@ -1,8 +1,8 @@
 [versions]
 # platform
 androidGradlePlugin = "8.1.2" # https://developer.android.com/build/releases/gradle-plugin
-kotlin = "1.8.22" # still not upgrade to 1.9.0 because there no compatible version of ComposeCompiler
-# check compatible version of compose compiler https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+kotlin = "1.9.10" # check compatible version of compose compiler https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+ksp = "1.9.0-1.0.13" # require kotlin >= 1.9.0
 ktlint = "11.6.0"
 detekt = "1.23.1"
 
@@ -10,7 +10,7 @@ detekt = "1.23.1"
 androidxActivity = "1.7.2"
 # Compose Bom mapping https://developer.android.com/jetpack/compose/bom/bom-mapping
 androidxComposeBom = "2023.09.02"
-androidxComposeCompiler = "1.4.8" # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+androidxComposeCompiler = "1.5.3" # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 androidxCoreKtx = "1.12.0"
 androidxLifecycleRuntime = "2.6.2"
 androidxBrowser = "1.6.0"
@@ -81,8 +81,9 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 #kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
 
 # Dependencies of the included build-logic
-android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" } #
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+#ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 [bundles]
 # refer to androidx-compose-bom
@@ -98,4 +99,5 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 gradle-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
