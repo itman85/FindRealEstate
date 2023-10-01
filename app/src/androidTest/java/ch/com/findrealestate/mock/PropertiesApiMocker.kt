@@ -2,7 +2,7 @@ package ch.com.findrealestate.mock
 
 interface PropertiesApiMocker : ApiMocker {
 
-    fun getPropertiesSuccess()
+    fun getPropertiesSuccess(delayResponseInSecond: Long = 3L)
 
     fun getPropertiesFailed()
 

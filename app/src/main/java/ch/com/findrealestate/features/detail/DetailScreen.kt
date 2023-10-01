@@ -19,9 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.lifecycleScope
 import ch.com.findrealestate.components.Loading
 import ch.com.findrealestate.domain.entity.PropertyDetail
 import ch.com.findrealestate.features.detail.redux.DetailAction
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

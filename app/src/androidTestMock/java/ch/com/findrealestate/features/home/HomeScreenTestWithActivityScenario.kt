@@ -23,6 +23,8 @@ import org.junit.runners.model.Statement
 @HiltAndroidTest
 class HomeScreenTestWithActivityScenario {
 
+    // Unable to resolve activity for: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=ch.homegate.mobile.debug.test/group.swissmarketplace.realestate.UITestActivity1 }
+    // Unable to resolve activity for: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=ch.homegate.mobile.debug.test/group.swissmarketplace.common.base.UITestActivityHg }
     private lateinit var activityScenario: ActivityScenario<HomeScreenTestActivity>
 
     // this way will launch activity with action main and category launch

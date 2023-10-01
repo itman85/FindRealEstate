@@ -9,13 +9,14 @@ import javax.inject.Inject
 class PropertiesApiMockerImpl @Inject constructor(private val mockWebServer: MockWebServer) :
     PropertiesApiMocker {
 
-    override fun getPropertiesSuccess() {
+    override fun getPropertiesSuccess(delayResponseInSecond: Long) {
         val listingDataJson = this.loadResource("api-data/listings.json")
         val mockedResponse = MockResponse().apply {
+            setHeadersDelay(delayResponseInSecond, TimeUnit.SECONDS)
             if (listingDataJson.isNullOrEmpty()) {
                 setResponseCode(404)
             } else {
-                setResponseCode(200).setBody(listingDataJson).setBodyDelay(3, TimeUnit.SECONDS)
+                setResponseCode(200).setBody(listingDataJson)
             }
         }
         mockWebServer.enqueue(mockedResponse)
@@ -23,6 +24,7 @@ class PropertiesApiMockerImpl @Inject constructor(private val mockWebServer: Moc
 
     override fun getPropertiesFailed() {
         val mockedResponse = MockResponse().apply {
+            setHeadersDelay(3, TimeUnit.SECONDS)
             setResponseCode(404)
         }
         mockWebServer.enqueue(mockedResponse)
@@ -31,6 +33,7 @@ class PropertiesApiMockerImpl @Inject constructor(private val mockWebServer: Moc
     override fun getSimilarPropertiesSuccess() {
         val listingDataJson = this.loadResource("api-data/similar_listings.json")
         val mockedResponse = MockResponse().apply {
+            setHeadersDelay(3, TimeUnit.SECONDS)
             if (listingDataJson.isNullOrEmpty()) {
                 setResponseCode(404)
             } else {
@@ -43,6 +46,7 @@ class PropertiesApiMockerImpl @Inject constructor(private val mockWebServer: Moc
     override fun getDetailPropertySuccess(propertyId: String) {
         val listingDataJson = this.loadResource("api-data/listing_$propertyId.json")
         val mockedResponse = MockResponse().apply {
+            setHeadersDelay(3, TimeUnit.SECONDS)
             if (listingDataJson.isNullOrEmpty()) {
                 setResponseCode(404)
             } else {
@@ -68,6 +72,7 @@ class PropertiesApiMockerImpl @Inject constructor(private val mockWebServer: Moc
 
     override fun getDetailPropertyFailed(propertyId: String) {
         val mockedResponse = MockResponse().apply {
+            setHeadersDelay(3, TimeUnit.SECONDS)
             setResponseCode(404)
         }
         mockWebServer.enqueue(mockedResponse)
