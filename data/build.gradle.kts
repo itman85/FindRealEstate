@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.android.hilt)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -27,7 +28,7 @@ dependencies {
     // Room db
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler) // use ksp instead of kapt to fix the issue when compile Room with kotlin 1.9.0 or higher
     testImplementation(libs.room.testing)
 
     implementation(project(":domain"))
