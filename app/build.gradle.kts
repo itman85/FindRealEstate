@@ -16,7 +16,7 @@ android {
     namespace = "ch.com.findrealestate"
 
     detekt {
-        toolVersion = "1.23.0"
+        toolVersion = "1.23.1"
         config = files("$rootDir/config/detekt/detekt.yml")
     }
 
