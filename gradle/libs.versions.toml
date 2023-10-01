@@ -23,7 +23,7 @@ hilt = "2.48"
 retrofit2 = "2.9.0"
 okhttp3Logging= "5.0.0-alpha.11"
 roomDb = "2.5.2"
-coroutinesCoreKtx = "1.7.2"
+coroutinesCoreKtx = "1.7.3"
 # testing
 androidxTestExt = "1.1.5"
 #androidxTestRules = "1.4.0"
