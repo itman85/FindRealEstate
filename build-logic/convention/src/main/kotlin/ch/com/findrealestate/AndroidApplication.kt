@@ -6,7 +6,7 @@ import org.gradle.api.Project
 internal fun Project.configureAndroidApplication(extension: ApplicationExtension){
     extension.apply {
         defaultConfig {
-            targetSdk = 33
+            targetSdk = 34
             applicationId = "ch.com.findrealestate"
             versionCode = 1
             versionName = "1.0"
