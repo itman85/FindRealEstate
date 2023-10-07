@@ -5,10 +5,10 @@ import org.gradle.api.Project
 
 @Suppress("UnstableApiUsage")
 internal fun Project.configureAndroidCommon(
-    extension: CommonExtension<*, *, *, *>,
+    extension: CommonExtension<*, *, *, *, *>,
 ) {
     extension.apply {
-        compileSdk = 33
+        compileSdk = 34
 
         defaultConfig {
             minSdk = 26
