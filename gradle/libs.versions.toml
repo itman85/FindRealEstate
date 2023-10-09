@@ -19,7 +19,7 @@ androidxNavigationCompose = "2.7.3"
 androidxHiltNavigationCompose = "1.0.0"
 # others
 coilCompose = "2.4.0"
-hilt = "2.48"
+hilt = "2.48.1"
 retrofit2 = "2.9.0"
 okhttp3Logging= "5.0.0-alpha.11"
 roomDb = "2.5.2"
