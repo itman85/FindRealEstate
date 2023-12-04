@@ -3,7 +3,7 @@
 androidGradlePlugin = "8.1.2" # https://developer.android.com/build/releases/gradle-plugin
 kotlin = "1.9.10" # check compatible version of compose compiler https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 ksp = "1.9.0-1.0.13" # require kotlin >= 1.9.0
-ktlint = "11.6.0"
+ktlint = "12.0.2"
 detekt = "1.23.1"
 
 # androidX & conpose
