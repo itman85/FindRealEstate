@@ -16,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -104,7 +105,7 @@ fun PropertiesList(
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         state = scrollableState,
-        modifier = Modifier.padding(paddingValues)
+        modifier = Modifier.padding(paddingValues).testTag("the_list")
     ) {
         item {
             Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
@@ -232,6 +233,7 @@ fun PropertyItem(
         modifier = Modifier
             .padding(start = 20.dp, end = 20.dp)
             .clickable { propertyClick(property.id) }
+            .testTag("property_item")
     ) {
         Box {
             Box(

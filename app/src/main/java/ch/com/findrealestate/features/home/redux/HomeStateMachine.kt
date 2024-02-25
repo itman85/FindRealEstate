@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-@ViewModelScoped
+//@ViewModelScoped
 class HomeStateMachine @Inject constructor(
     private val getPropertiesUseCase: GetPropertiesUseCase,
     private val favoriteSideEffect: FavoriteSideEffect,

@@ -2,8 +2,12 @@ package ch.com.findrealestate
 
 import com.android.build.api.dsl.ApplicationExtension
 import org.gradle.api.Project
+import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.getByType
 
 internal fun Project.configureAndroidApplication(extension: ApplicationExtension){
+
     extension.apply {
         defaultConfig {
             targetSdk = 34
@@ -30,4 +34,5 @@ internal fun Project.configureAndroidApplication(extension: ApplicationExtension
             }
         }
     }
+
 }

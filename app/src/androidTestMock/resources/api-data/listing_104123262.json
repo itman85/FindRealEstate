@@ -1,0 +1,247 @@
+{
+  "listings": [
+    {
+      "listingType": {
+        "type": "TOP"
+      },
+      "resourceLastModified": "1660568936861",
+      "listing": {
+        "localization": {
+          "de": {
+            "urls": [
+              {
+                "title": "Link Archilogic",
+                "type": "VIRTUAL_TOUR",
+                "value": "https://spaces.archilogic.com/?3d/archilogic/zmdnqo2h?modelResourceId=3fcf5657-2f65-41c6-88e7-e67e83717faa"
+              },
+              {
+                "type": "YOUTUBE",
+                "value": "https://youtu.be/_aIWs9ihGnU"
+              }
+            ],
+            "attachments": [
+              {
+                "type": "IMAGE",
+                "url": "https://media2.homegate.ch/listings/heia/104123262/image/6b53db714891bfe2321cc3a6d4af76e1.jpg",
+                "file": "201705241056461331496.jpg"
+              },
+              {
+                "type": "IMAGE",
+                "url": "https://media2.homegate.ch/listings/heia/104123262/image/328c41c0c0805299f5c28d680fbac4d9.jpg",
+                "file": "201705241056598207255.jpg"
+              },
+              {
+                "type": "IMAGE",
+                "url": "https://media2.homegate.ch/listings/heia/104123262/image/2333f298be7cc3609daaaf2e39e91bf9.jpg",
+                "file": "201705241056543197873.jpg"
+              },
+              {
+                "type": "IMAGE",
+                "url": "https://media2.homegate.ch/listings/heia/104123262/image/8944c80cb8afb8d5d579ca4faf7dbbb4.jpg",
+                "file": "201709182235035435737.jpg"
+              },
+              {
+                "type": "IMAGE",
+                "url": "https://media2.homegate.ch/listings/heia/104123262/image/bbb5b2fb8a1cf58ce690e0cfca23d266.jpg",
+                "file": "201705241056505004370.jpg"
+              },
+              {
+                "type": "DOCUMENT",
+                "url": "https://media2.homegate.ch/listings/heia/104123262/document/8d844358c73b10cc50c322591a1405c4.pdf",
+                "file": "202009141303411175201.pdf"
+              },
+              {
+                "type": "IMAGE",
+                "url": "https://media2.homegate.ch/listings/heia/104123262/image/9ed8163e3a9252f7eed28d5212bc1b11.jpg",
+                "file": "201709182234496788792.jpg"
+              }
+            ],
+            "text": {
+              "title": "Luxuriöses Einfamilienhaus mit Pool - Musterinserat",
+              "description": "Bereits bei der Zufahrt zu diesem äussert stilvoll und modern gebauten Einfamilienhaus werden Sie sich in diese Liegenschaft verlieben. Das Einfamilienhaus schmiegt sich sehr gut in die unmittelbare und gepflegte Umgebung ein und ist geprägt von Ruhe und Harmonie. Es präsentiert sich als absolut neuwertiges und wunderschönes Flachdacheinfamilienhaus mit einem grosszügigen Aussenbereich. Weite und hohe Wohnräume mit einzigartigen Aussichten durch grosse Fensterfronten und die luxuriös ausgestattete Wohnküche prägen das Wohngeschoss; von allen Räumen gelangt man durch Glasschiebetüren auf Terrassenbereiche hinaus. Der exquisite Garten mit der gepflegten, ebenen Rasenfläche und der eleganten Pool-Zone lässt einen in luxuriösen Ferien wähnen. Ein Masterbedroom mit direktem Zugang zum Ankleidezimmer und dem Badezimmer mit WC und grosser runder Badewanne sowie zwei weitere Zimmer, ein WC sowie Dusche vervollständigen dieses makellose Raumangebot im Obergeschoss. Sämtliche Bäder sind mit Marmor und Granit ausgestattet.\r\nEine auch grössere Familie mit Sinn für das Schöne und Edle findet hier an herrlicher Aussichtslage das Traumobjekt. Bei Fragen oder für eine unverbindliche Besichtigung stehen wir Ihnen gerne zur Verfügung.",
+              "situation": "am Waldrand"
+            }
+          },
+          "primary": "de"
+        },
+        "characteristics": {
+          "cubage": 2500,
+          "totalFloorSpace": 996,
+          "hasFireplace": true,
+          "numberOfRooms": 9.5,
+          "yearBuilt": 2010,
+          "isMinergieGeneral": true,
+          "isWheelchairAccessible": true,
+          "hasSwimmingPool": true,
+          "ceilingHeight": 3.5,
+          "distanceShop": 2000,
+          "yearLastRenovated": 2017,
+          "hasGarage": true,
+          "hasParking": true,
+          "numberOfFloors": 2,
+          "lotSize": 1691,
+          "hasBalcony": true,
+          "distanceMotorway": 5000,
+          "livingSpace": 560,
+          "hasCableTv": true,
+          "hasNiceView": true,
+          "distanceHighSchool": 8000,
+          "distanceKindergarten": 2500,
+          "distancePrimarySchool": 4000,
+          "distancePublicTransport": 500,
+          "hasElevator": true,
+          "isNewBuilding": true,
+          "isMinergieCertified": true,
+          "isChildFriendly": true
+        },
+        "lister": {
+          "website": {
+            "value": "homegate.ch"
+          },
+          "address": {
+            "locality": "Zürich",
+            "country": "CH",
+            "region": "ZH",
+            "street": "Werdstrasse 21",
+            "postalCode": "8004"
+          },
+          "accountActive": true,
+          "migratedToAws": true,
+          "type": "AGENCY",
+          "logoUrl": "https://media2.homegate.ch/t_customer_logo/logos/l_heia_v1.png",
+          "legalName": "SMG Swiss Marketplace Group AG",
+          "phone": "+41 44 711 86 67",
+          "name": "Homegate",
+          "id": "heia",
+          "contacts": {
+            "inquiry": {
+              "givenName": "Hans Muster"
+            },
+            "viewing": {
+              "phone": "0",
+              "givenName": "Hans Muster"
+            }
+          }
+        },
+        "address": {
+          "country": "CH",
+          "geoDistances": [
+            {
+              "distance": -1178.6780654268407,
+              "geoTag": "geo-canton-neuchatel"
+            },
+            {
+              "distance": -728.2643114678798,
+              "geoTag": "geo-city-la-brevine"
+            },
+            {
+              "distance": -1178.6780654268407,
+              "geoTag": "geo-country-switzerland"
+            },
+            {
+              "distance": -1178.6780654268407,
+              "geoTag": "geo-region-le-locle"
+            },
+            {
+              "distance": -1178.6780654268407,
+              "geoTag": "geo-zipcode-2406"
+            }
+          ],
+          "geoTags": [
+            "geo-canton-neuchatel",
+            "geo-city-la-brevine",
+            "geo-country-switzerland",
+            "geo-region-le-locle",
+            "geo-zipcode-2406"
+          ],
+          "street": "Musterstrasse 999",
+          "postalCode": "2406",
+          "locality": "La Brévine",
+          "geoCoordinates": {
+            "accuracy": "HIGH",
+            "manual": true,
+            "latitude": 46.98035,
+            "longitude": 6.60687
+          },
+          "region": "NE"
+        },
+        "legacy": {
+          "personId": 38807,
+          "ppaPersonId": 38807,
+          "publishingGroupId": 1153,
+          "deliveryGroupId": 0
+        },
+        "externalIds": {
+          "internalReferenceId": "heia#2#101#brevine",
+          "displayPropertyReferenceId": "brevine.101.2",
+          "propertyReferenceId": "heia#2#101#brevine"
+        },
+        "contactForm": {
+          "size": "NO_ADDRESS",
+          "deliveryFormat": "NORMAL"
+        },
+        "version": 130,
+        "platforms": [
+          "homegate",
+          "home",
+          "immostreet"
+        ],
+        "offerType": "BUY",
+        "deleted": false,
+        "meta": {
+          "listingsImporterInternalUuid": "dcd13e74-3f01-420b-8425-059839f05e68",
+          "schemaVersion": "1.12.0",
+          "isFromNewInsertionFunnel": true,
+          "source": "BUSINESS_INSERTION_FUNNEL",
+          "firstAdvertisementId": "104123262",
+          "quality": 0.9166666666666666,
+          "createdAt": "2019-09-20T08:53:50.460+02:00",
+          "advertisementId": "104123262",
+          "softwareName": "PD",
+          "replayCount": 1,
+          "publishers": [],
+          "insertion": {
+            "version": 3
+          },
+          "updatedAt": "2022-08-15T15:08:56.861+02:00"
+        },
+        "categories": [
+          "HOUSE",
+          "SINGLE_HOUSE"
+        ],
+        "id": "104123262",
+        "prices": {
+          "currency": "CHF",
+          "buy": {
+            "area": "ALL",
+            "price": 9999999,
+            "interval": "ONETIME"
+          }
+        },
+        "valueAddedServices": {
+          "bundle": "LEGACY"
+        }
+      },
+      "id": "104123262",
+      "listingType_resourceLastModified": 1644227480252,
+      "listerBranding": {
+        "logoUrl": "https://media2.homegate.ch/t_customer_logo/logos/l_heia_v1.png",
+        "legalName": "SMG Swiss Marketplace Group AG",
+        "name": "Homegate",
+        "address": {
+          "locality": "Zürich",
+          "country": "CH",
+          "region": "ZH",
+          "street": "Werdstrasse 21",
+          "postalCode": "8004"
+        },
+        "adActive": true,
+        "isQualityPartner": false,
+        "isPremiumBranding": true,
+        "profilePageUrlKeyword": "smg-swiss-marketplace-group-ag"
+      },
+      "paused": false,
+      "remoteViewing": false
+    }
+  ]
+}

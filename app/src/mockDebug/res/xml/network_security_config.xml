@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- this config for mock android test only -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <!-- Add any specific certificates you may need -->
+        </trust-anchors>
+    </base-config>
+</network-security-config>

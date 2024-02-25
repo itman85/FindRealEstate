@@ -13,14 +13,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.lifecycleScope
 import ch.com.findrealestate.components.Loading
 import ch.com.findrealestate.domain.entity.PropertyDetail
 import ch.com.findrealestate.features.detail.redux.DetailAction
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -143,7 +146,7 @@ fun DetailScreen(propertyId: String?, navigator: DetailNavigator) {
 
 @Composable
 fun DetailLoadingComponent(modifier: Modifier, propertyId: String) {
-    Column(modifier = modifier) {
+    Column(modifier = modifier.testTag("detail_loading_text")) {
         Text(
             text = "Loading detail data for Property Id $propertyId",
             textAlign = TextAlign.Center,
@@ -169,7 +172,7 @@ fun DetailInfoComponent(
     propertyDetail: PropertyDetail,
     onOpenWebsiteClick: () -> Unit
 ) {
-    Column(modifier = modifier.verticalScroll(rememberScrollState())) {
+    Column(modifier = modifier.verticalScroll(rememberScrollState()).testTag("detail_data")) {
         Text(text = propertyDetail.title)
         Spacer(modifier = modifier.padding(top = 8.dp))
         Button(onClick = onOpenWebsiteClick) {

@@ -15,13 +15,7 @@ class PropertiesRepositoryImpl @Inject constructor(
 ) : PropertiesRepository {
     override suspend fun getProperties(): List<Property> {
         return withContext(Dispatchers.IO) {
-            localDataSource.getProperties().run {
-                this.ifEmpty {
-                    remoteDataSource.getProperties().also {
-                        localDataSource.insertAll(it)
-                    }
-                }
-            }
+            remoteDataSource.getProperties()
         }
     }
 

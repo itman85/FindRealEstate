@@ -25,12 +25,9 @@ class DetailNavigatorImpl(
 
         val builder = CustomTabsIntent.Builder()
 
-
         builder.setShowTitle(true)
 
-
         builder.setInstantAppsEnabled(true)
-
 
         val customBuilder = builder.build()
 

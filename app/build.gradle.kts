@@ -1,4 +1,8 @@
 @file:Suppress("UnstableApiUsage")
+
+import ch.com.findrealestate.androidTestDependencies
+import ch.com.findrealestate.unitTestDependencies
+
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("myapp.android.application")
@@ -15,11 +19,24 @@ android {
 
     namespace = "ch.com.findrealestate"
 
+    testOptions {
+        packaging {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
+    }
+
     detekt {
         toolVersion = "1.23.1"
         config = files("$rootDir/config/detekt/detekt.yml")
     }
 
+    /*sourceSets {
+        named("androidTestMock") {
+            manifest.srcFile("$rootDir/app/src/androidTestMock/AndroidManifest.xml")
+        }
+    }*/
 }
 
 dependencies {
@@ -50,10 +67,9 @@ dependencies {
     implementation(project(":data"))
     implementation (project(":flow-redux"))
 
-    testImplementation(project(":testutils"))
-    testImplementation(libs.junit4)
-    testImplementation(libs.kotlinTestJunit5)
-    testImplementation(libs.turbine)
-    androidTestImplementation(libs.androidx.test.ext)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+    // unit test dependencies
+    unitTestDependencies(project)
+    // android test dependencies
+    androidTestDependencies(project)
+
 }

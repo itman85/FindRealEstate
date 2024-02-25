@@ -3,6 +3,7 @@
 plugins {
     id("myapp.android.library")
     id("myapp.jetbrains.kotlin.android")
+    id("myapp.android.compose")
 }
 
 android {
@@ -10,14 +11,15 @@ android {
 }
 
 dependencies {
-
-    api(libs.mockk)
-    api(libs.mockk.android)
-    api(libs.kotlinx.coroutines.test)
-    api(libs.junit4)
-    api(libs.androidx.test.ext)
-    api(libs.robolectric)
-
-    androidTestImplementation(libs.androidx.test.ext)
-    androidTestImplementation(libs.androidx.test.espresso.core)
+    // these dependencies can be referenced in both unit test and ui test
+    implementation(libs.mockk)
+    implementation(libs.mockk.android)
+    implementation(libs.kotlinx.coroutines.test)
+    implementation(libs.junit4)
+    implementation(libs.androidx.test.ext)
+    implementation(libs.kotlinTestJunit5)
+    implementation(libs.turbine)
+    implementation(libs.androidx.test.espresso.core)
+    implementation(libs.bundles.testComposeBomList)
+    implementation(libs.hilt.android.test)
 }
