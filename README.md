@@ -1,6 +1,6 @@
 # FindRealEstate
 This sample project is built using Clean Architecture with FlowRedux integration.
-The project has four modules: app, data, domain and testutils.
+The project applied latest tech: Jetpack Compose, Coroutines Flow, Composite Build Gradle, FlowRedux, Composite State Machine
 # FlowRedux
 FlowRedux is a concept derived from Redux and is implemented using coroutine Flow for Android applications. Additionally, there's RxRedux, which is implemented using RxJava or RxKotlin for Android apps. The primary programming paradigms in FlowRedux include reactive programming and functional programming.
 
