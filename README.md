@@ -1,6 +1,17 @@
 # FindRealEstate
-This project is built using Clean Architecture with Redux integration.
+This sample project is built using Clean Architecture with FlowRedux integration.
 The project has four modules: app, data, domain and testutils.
+# FlowRedux
+FlowRedux is a concept derived from Redux and is implemented using coroutine Flow for Android applications. Additionally, there's RxRedux, which is implemented using RxJava or RxKotlin for Android apps. The primary programming paradigms in FlowRedux include reactive programming and functional programming.
+
+What are the benefits of implementing Redux in the project:
+- Single Source of Truth: In Redux, the entire state of your application is stored in a single object. This single source of truth makes it easy to understand where to find the current state of the application as well as to maintain consistency across your application.
+- State Immutability: Redux encourages immutable state. Instead of directly modifying the state, you create a new state object for each update. This makes it easier to track changes and maintain a history of state changes.
+- Time-Travel Debugging: Redux supports time-travel debugging, which allows you to step forward and backward through the state changes in your application. This can be incredibly useful for tracking down bugs and understanding how your application reached a particular state.
+- Testability: Redux applications are generally more testable because the state changes are isolated. You can easily write unit tests for logic in reducers and side effects.
+- Separation of Concerns: Redux promotes a clear separation of concerns by keeping the state logic in reducers and side effects separate from the UI components. This makes your codebase more maintainable and scalable.
+- Scaling and Performance: Redux is designed to handle complex state management efficiently. With proper usage, it can help you maintain good performance in your application even as it grows.
+  
 # Tech Stacks
 This project uses many of the popular libraries, plugins and tools of the android ecosystem.
 - [Compose](https://developer.android.com/jetpack/compose)
