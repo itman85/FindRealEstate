@@ -1,8 +1,8 @@
 [versions]
 # platform
 androidGradlePlugin = "8.1.2" # https://developer.android.com/build/releases/gradle-plugin
-kotlin = "1.9.10" # check compatible version of compose compiler https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-ksp = "1.9.0-1.0.13" # require kotlin >= 1.9.0
+kotlin = "2.1.10" # check compatible version of compose compiler https://developer.android.com/jetpack/androidx/releases/compose-kotlin
+ksp = "2.1.10-1.0.31" # require kotlin >= 1.9.0
 ktlint = "11.6.0"
 detekt = "1.23.1"
 
@@ -23,7 +23,7 @@ hilt = "2.48"
 retrofit2 = "2.9.0"
 okhttp3Logging= "5.0.0-alpha.11"
 roomDb = "2.5.2"
-coroutinesCoreKtx = "1.7.2"
+coroutinesCoreKtx = "1.10.1"
 # testing
 androidxTestExt = "1.1.5"
 #androidxTestRules = "1.4.0"
