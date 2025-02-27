@@ -1,39 +1,39 @@
 [versions]
 # platform
-androidGradlePlugin = "8.1.2" # https://developer.android.com/build/releases/gradle-plugin
+androidGradlePlugin = "8.8.2" # https://developer.android.com/build/releases/gradle-plugin
 kotlin = "1.9.10" # check compatible version of compose compiler https://developer.android.com/jetpack/androidx/releases/compose-kotlin
 ksp = "1.9.0-1.0.13" # require kotlin >= 1.9.0
-ktlint = "11.6.0"
-detekt = "1.23.1"
+ktlint = "12.2.0"
+detekt = "1.23.8"
 
 # androidX & conpose
-androidxActivity = "1.7.2"
+androidxActivity = "1.10.1"
 # Compose Bom mapping https://developer.android.com/jetpack/compose/bom/bom-mapping
-androidxComposeBom = "2023.09.02"
+androidxComposeBom = "2025.02.00"
 androidxComposeCompiler = "1.5.3" # https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-androidxCoreKtx = "1.12.0"
-androidxLifecycleRuntime = "2.6.2"
-androidxBrowser = "1.6.0"
-androidxComposeMaterial3 = "1.1.2"
-androidxNavigationCompose = "2.7.3"
-androidxHiltNavigationCompose = "1.0.0"
+androidxCoreKtx = "1.15.0"
+androidxLifecycleRuntime = "2.8.7"
+androidxBrowser = "1.8.0"
+androidxComposeMaterial3 = "1.3.1"
+androidxNavigationCompose = "2.8.8"
+androidxHiltNavigationCompose = "1.2.0"
 # others
-coilCompose = "2.4.0"
-hilt = "2.48"
-retrofit2 = "2.9.0"
-okhttp3Logging= "5.0.0-alpha.11"
-roomDb = "2.5.2"
+coilCompose = "2.7.0"
+hilt = "2.55"
+retrofit2 = "2.11.0"
+okhttp3Logging= "5.0.0-alpha.14"
+roomDb = "2.6.1"
 coroutinesCoreKtx = "1.7.2"
 # testing
-androidxTestExt = "1.1.5"
+androidxTestExt = "1.2.1"
 #androidxTestRules = "1.4.0"
 #androidxTestRunner = "1.4.0"
-androidxEspresso = "3.5.1"
+androidxEspresso = "3.6.1"
 junit4 = "4.13.2"
-turbine = "1.0.0"
+turbine = "1.2.0"
 kotlinTestJunit5 = "3.4.2"
-mockk = "1.13.8"
-robolectric = "4.10.3"
+mockk = "1.13.17"
+robolectric = "4.14.1"
 
 [libraries]
 # androidx compose bom
